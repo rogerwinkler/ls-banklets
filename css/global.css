@@ -7,20 +7,23 @@
   --mx-dark-green: #c3ef6f;
   --mx-medium-green: #d5ed75;
   --mx-light-green: #f7ffd8;
+  --mx-light-grey: #aaaaaa;
+  --mx-medium-grey: #818181;
+  --mx-dark-grey: #444444;
 
   /* Website color definitions */
-  --primary-color: var(--mx-medium-green);
-  --secondary-color: var(--mx-medium-blue);
-  --tertiary-color: var(--mx-light-blue);
-  --txt-color: #818181;
-  --txt-color-title: #c6c6c6;
+  --primary-color: var(--mx-dark-blue);
+  --secondary-color: var(--mx-light-grey);
+  --tertiary-color: var(--mx-dark-green);
+  --txt-color: var(--mx-dark-grey);
+  /* --txt-color-title: #c6c6c6;
   --bg-color-primary: #333;
   --bg-color-secondary: #3d3d3d;
   --bg-color-tertiary: #474747;
   --bg-color-post: #fff;
   --bg-color-sel: #ededed;
   --color-sel: var(--bg-color-secondary);
-  --link-color: var(--bg-color-tertiary);
+  --link-color: var(--bg-color-tertiary); */
 
   /* Menu font size */
   --font-size-menu: 12px;
@@ -33,15 +36,51 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template:
+    "nav" 40px
+    "content" auto;
+}
+
+.nav {
+  /* grid-row: 1; */
+  grid-area: nav;
+  display: block;
+}
+
+.content {
+  /* grid-row: auto; */
+  grid-area: content;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.title {
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: block;
+  font-weight: 400;
+  font-size: 70px;
+  /* color: #35495e; */
+  /* color: var(--bg-color-tertiary); */
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
 h1 {
   font-size: 36px;
 }
 
 :focus {
+  outline-color: var(--secondary-color);
   /* outline: none !important; */
   /* border: 2px solid var(--secondary-color); */
   /* box-shadow: 0 0 20px var(--mx-dark-blue); */
-  outline-color: var(--secondary-color);
 }
 
 input {
@@ -56,10 +95,34 @@ input {
   font-size: 16px;
 }
 
-.btn-clear-input {
-  background-color: white;
-  color: var(--mx-dark-blue);
-  border: none;
+/* nav */
+.site-navigation {
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   font-size: 20px;
-  margin-top: 2px;
+  font-weight: 700;
+}
+
+/* .site-navigation .inner {
+  position: relative;
+}
+
+.inner {
+  margin: 0 auto;
+  max-width: 1200px;
+} */
+
+/* .inner:after, */
+.div-menu:after {
+  clear: both;
+}
+
+/* .inner:after, */
+/* .inner:before, */
+.div-menu:after,
+.div-menu:before {
+  content: "";
+  display: table;
 }
