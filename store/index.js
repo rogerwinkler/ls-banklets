@@ -1,20 +1,12 @@
 export const state = () => ({
   // output debug statements if "debug = true"
-  debug: false,
+  debug: true,
 
   // the currently selected menu item, "" if none is selected
   bpKey: "musteralfred",
 
   // store for selected card
-  card: {
-    name: "Mastercard Gold 1234-3456-2345-2341-99",
-    limits: {
-      monthly: 3000,
-      daily: 600
-    },
-    regions: ["Europe", "North America"],
-    blocked: false
-  },
+  cardIndex: 0,
 
   // available cards
   cards: [
@@ -63,7 +55,7 @@ export const state = () => ({
     "South America",
     "Australia",
     "Asia",
-    "Russion",
+    "Russia",
     "Middle East",
     "Africa"
   ]
@@ -77,13 +69,33 @@ export const mutations = {
     state.bpKey = newBPKey;
   },
 
+  setCardIndex(state, newIndex) {
+    if (state.debug) {
+      console.log("store::index.js::setCardIndex::newIndex=", newIndex);
+    }
+    state.cardIndex = newIndex;
+  },
+
+  setCardIndexByName(state, name) {
+    if (state.debug) {
+      console.log("store::index.js::setBPKey::name=", name);
+    }
+    for (let i=0; i<state.cards.length; i++) {
+      if (state.cards[i].name === name) {
+        state.cardIndex = i;
+        return;
+      }
+    }
+  },
+
   setCard(state, newCard) {
     if (state.debug) {
       console.log("store::index.js::setBPKey::newCard=", newCard);
     }
     for (let i=0; i<state.cards.length; i++) {
-      if (state.cards[i].name === newCard) {
-        state.card = state.cards[i];
+      if (state.cards[i].name === newCard.name) {
+        state.cards[i]=newCard;
+        return;
       }
     }
   }

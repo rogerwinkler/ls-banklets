@@ -22,6 +22,7 @@
         <button class="cta full-screen" @click="login">Login</button>
       </div>
     </div>
+    <notifications position="bottom center" />
   </div>
 </template>
 
@@ -61,9 +62,12 @@ export default {
         this.$store.commit("setBPKey", bpKeyInput.value);
         this.$router.push("/main");
       } else {
-        // TODO: Show message "bpKey must not be null" or so...
-        console.log("bpKey must not be empty");
-        return;
+        this.$notify({
+          title: "Fehler",
+          text: "BP Key darf nicht leer sein!",
+          type: "error",
+          duration: 2000
+        });
       }
     },
 

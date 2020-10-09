@@ -71,7 +71,7 @@ export default {
       const cardElem = document.querySelector(".select-card");
       // console.log("cardElem=", cardElem);
       // console.log("cardElem.value=", cardElem.value);
-      this.$store.commit("setCard", cardElem.value);
+      this.$store.commit("setCardIndexByName", cardElem.value);
       this.$router.push(link);
     }
   }

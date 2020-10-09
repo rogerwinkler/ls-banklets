@@ -70,6 +70,8 @@
         </h1>
       </div>
     </div>
+    <notifications position="bottom center" />
+    <!-- <vue-confirm-dialog></vue-confirm-dialog> -->
   </div>
 </template>
 
@@ -78,9 +80,15 @@ export default {
   data() {
     return {
       bpKey: this.$store.state.bpKey,
-      card: this.$store.state.card
+      card: this.$store.state.cards[this.$store.state.cardIndex]
     };
   },
+
+  // computed: {
+  //   card() {
+  //     return this.$store.state.cards[this.$store.state.cardIndex];
+  //   }
+  // },
 
   mounted() {
     // console.log("change-limits.vue::mounted");
@@ -121,20 +129,73 @@ export default {
 
     cancel() {
       console.log("change-limits.vue::cancel");
-      if (
-        this.limitChanged() &&
-        confirm("Wirkllich abbrechen, Änderungen gehen verloren?")
-      ) {
+      if (this.limitChanged()) {
+        console.log("limitChanged::this.$confirm=", this.$confirm);
+        this.$confirm({
+          message:
+            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          button: {
+            no: "Nein",
+            yes: "Ja"
+          },
+          callback: confirm => {
+            console.log("confirm callback");
+            if (confirm) {
+              history.back();
+            }
+          }
+        });
+      } else {
         history.back();
       }
     },
 
     save() {
-      console.log("change-limits.vue::save");
+      // console.log("change-limits.vue::save");
+      if (this.limitChanged()) {
+        const ml = document.getElementById("ml");
+        const dl = document.getElementById("dl");
+        const cardString = JSON.stringify(this.card);
+        const newCard = JSON.parse(cardString);
+        newCard.limits.monthly = ml.value;
+        newCard.limits.daily = dl.value;
+        this.$store.commit("setCard", newCard);
+        this.card = this.$store.state.cards[this.$store.state.cardIndex];
+        this.$notify({
+          title: "Erfolg",
+          text: "Änderungen erfolgreich gespeichert!",
+          type: "success",
+          duration: 2000
+        });
+      } else {
+        this.$notify({
+          title: "Info",
+          text: "Limiten unverändert, nichts zu speichern.",
+          duration: 2000
+        });
+      }
     },
 
     reset() {
       console.log("change-limits.vue::reset");
+      if (this.limitChanged()) {
+        const ml = document.getElementById("ml");
+        const dl = document.getElementById("dl");
+        ml.value = this.card.limits.monthly;
+        dl.value = this.card.limits.daily;
+        this.$notify({
+          title: "Erfolg",
+          text: "Limiten erfolgreich zurückgesetzt!",
+          type: "success",
+          duration: 2000
+        });
+      } else {
+        this.$notify({
+          title: "Info",
+          text: "Limiten unverändert, nichts zurückzusetzen.",
+          duration: 2000
+        });
+      }
     }
   }
 };
