@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Kartenverwaltung" />
+      <Nav title="Kartenverwaltung" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-btn-section">
@@ -66,13 +66,12 @@ export default {
 
   methods: {
     gotoLink(link) {
-      console.log("cards.vue::gotoLink::link=", link);
+      // console.log("cards.vue::gotoLink::link=", link);
       // store selected card
       const cardElem = document.querySelector(".select-card");
       // console.log("cardElem=", cardElem);
       // console.log("cardElem.value=", cardElem.value);
       this.$store.commit("setCard", cardElem.value);
-
       this.$router.push(link);
     }
   }
@@ -114,7 +113,6 @@ export default {
   font-size: 24px;
   border: none;
   border-radius: 4px;
-  background-color: white;
   box-shadow: -6px 4px 10px var(--secondary-color);
   width: 80%;
 }
@@ -141,14 +139,14 @@ export default {
 .label-select {
   position: absolute;
   left: 10%;
-  top: 25px;
+  top: 30px;
 }
 
 .select-card {
   width: 80%;
   position: absolute;
   left: 10%;
-  top: 65px;
+  top: 67px;
   font-size: 16px;
 }
 </style>

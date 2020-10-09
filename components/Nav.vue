@@ -1,7 +1,15 @@
 <template>
   <nav class="site-navigation">
     <div class="div-nav-logo">
+      <button v-if="backbutton === 'true'" class="back-button" @click="goBack">
+        <img
+          id="back-button"
+          src="/img/321-arrow-left2-grey.svg"
+          alt="Arrow left"
+        />
+      </button>
       <img
+        v-else
         id="img-logo"
         src="/img/logo-mx-cubic-grey.svg"
         alt="Logo Monex AG"
@@ -63,12 +71,18 @@ export default {
     };
   },
 
-  props: ["title"],
+  props: ["title", "backbutton"],
 
   mounted() {
     // console.log("component::Nav.vue::mounted");
     document.addEventListener("keydown", this.handleKeyboardAndMouseEvents);
     document.addEventListener("click", this.handleKeyboardAndMouseEvents);
+  },
+
+  destroyed() {
+    // console.log("component::Nav.vue::destroyed");
+    document.removeEventListener("keydown", this.handleKeyboardAndMouseEvents);
+    document.removeEventListener("click", this.handleKeyboardAndMouseEvents);
   },
 
   methods: {
@@ -86,15 +100,24 @@ export default {
     },
 
     handleKeyboardAndMouseEvents(e) {
-      // console.log("component::Nav.vue::keyDown");
+      // console.log("component::Na.vue::handleKeyboardAndMouseEvents::e=", e);
       if (this.expanded) {
         this.toggleMenu();
         e.preventDefault();
       }
+      if (e && e.key && e.key === "Backspace" && e.shiftKey) {
+        this.goBack();
+      }
     },
 
     gotoLink(link) {
+      // console.log("components::Nav.vue::gotoLink");
       this.$router.push(link);
+    },
+
+    goBack() {
+      // console.log("components::Nav.vue::goBack");
+      history.back();
     }
   }
 };
@@ -133,6 +156,21 @@ nav {
   border: none;
   margin-top: 10px;
   margin-right: 10px;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: var(--primary-color);
+  border: none;
+  margin-top: 0px;
+  margin-right: 10px;
+}
+
+#back-button {
+  width: 30px;
+  margin-top: 4px;
 }
 
 .div-menu {

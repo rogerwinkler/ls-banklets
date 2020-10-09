@@ -6,7 +6,15 @@ export const state = () => ({
   bpKey: "musteralfred",
 
   // store for selected card
-  card: "Mastercard Gold 1234-3456-2345-2341-99",
+  card: {
+    name: "Mastercard Gold 1234-3456-2345-2341-99",
+    limits: {
+      monthly: 3000,
+      daily: 600
+    },
+    regions: ["Europe", "North America"],
+    blocked: false
+  },
 
   // available cards
   cards: [
@@ -73,6 +81,10 @@ export const mutations = {
     if (state.debug) {
       console.log("store::index.js::setBPKey::newCard=", newCard);
     }
-    state.card = newCard;
+    for (let i=0; i<state.cards.length; i++) {
+      if (state.cards[i].name === newCard) {
+        state.card = state.cards[i];
+      }
+    }
   }
 };

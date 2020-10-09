@@ -13,7 +13,7 @@
           <button class="btn-clear-input" @click="clearInput">
             <img
               class="img-clear-input"
-              src="/img/270-cancel-circle.svg"
+              src="/img/270-cancel-circle-blue.svg"
               alt="Clear input field"
             />
           </button>
@@ -36,8 +36,13 @@ export default {
   // props: ["slug", "attributes", "target"],
 
   mounted() {
-    console.log("index.vue::mounted");
+    // console.log("index.vue::mounted");
     document.addEventListener("keypress", this.handleKeyPressEvent);
+  },
+
+  destroyed() {
+    // console.log("index.vue::destroyed");
+    document.removeEventListener("keypress", this.handleKeyPressEvent);
   },
 
   methods: {

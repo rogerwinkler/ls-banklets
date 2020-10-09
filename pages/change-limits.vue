@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Limitenanpassung" />
+      <Nav title="Limitenanpassung" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-btn-section">
@@ -10,7 +10,7 @@
             <div class="div-select">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
               <label class="label-card">Karte:</label>
-              <label class="select-card">{{ card }}</label>
+              <label class="select-card">{{ card.name }}</label>
             </div>
           </li>
         </ul>
@@ -21,11 +21,11 @@
         </div>
         <div class="mla">
           <div class="input-clear">
-            <input id="ml" type="Text" />
+            <input id="ml" type="number" :value="card.limits.monthly" />
             <button class="btn-clear-input" @click="clearInput('ml')">
               <img
                 class="img-clear-input"
-                src="/img/270-cancel-circle.svg"
+                src="/img/270-cancel-circle-blue.svg"
                 alt="Clear input field"
               />
             </button>
@@ -36,11 +36,11 @@
         </div>
         <div class="dla">
           <div class="input-clear">
-            <input id="dl" type="Text" />
+            <input id="dl" type="number" :value="card.limits.daily" />
             <button class="btn-clear-input" @click="clearInput('dl')">
               <img
                 class="img-clear-input"
-                src="/img/270-cancel-circle.svg"
+                src="/img/270-cancel-circle-blue.svg"
                 alt="Clear input field"
               />
             </button>
@@ -82,15 +82,51 @@ export default {
     };
   },
 
+  mounted() {
+    // console.log("change-limits.vue::mounted");
+    document.addEventListener("keypress", this.keyPressed);
+  },
+
+  destroyed() {
+    // console.log("change-limits.vue::destroyed");
+    document.removeEventListener("keypress", this.keyPressed);
+  },
+
   methods: {
+    keyPressed(e) {
+      // console.log("change-limits.vue::keyPressed::e=", e);
+      if (e && e.key && e.key === "Enter") {
+        this.save();
+      }
+    },
+
     clearInput(inputId) {
       console.log("index.vue::clearInput::inputId=", inputId);
       const input = document.querySelector(`#${inputId}`);
       input.value = "";
     },
 
+    limitChanged() {
+      console.log("changeLimits.vue::limitChanged");
+      const ml = document.getElementById("ml");
+      const dl = document.getElementById("dl");
+      if (
+        parseInt(ml.value) !== parseInt(this.card.limits.monthly) ||
+        parseInt(dl.value) !== parseInt(this.card.limits.daily)
+      ) {
+        return true;
+      }
+      return false;
+    },
+
     cancel() {
       console.log("change-limits.vue::cancel");
+      if (
+        this.limitChanged() &&
+        confirm("Wirkllich abbrechen, Änderungen gehen verloren?")
+      ) {
+        history.back();
+      }
     },
 
     save() {
@@ -227,7 +263,7 @@ export default {
 
 .rb {
   grid-area: rb;
-  padding-top: 10px;
+  padding-top: 16px;
   padding-right: 10px;
   /* background-color: maroon; */
 }
@@ -243,15 +279,11 @@ export default {
   left: 10%;
 }
 
-#ml {
-  width: 100%;
-  font-size: 20px;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
-}
-
+#ml,
 #dl {
   width: 100%;
   font-size: 20px;
+  text-align: right;
   /* box-shadow: -6px 4px 10px var(--secondary-color); */
 }
 
@@ -272,29 +304,5 @@ export default {
 
 .img-clear-input {
   width: 30px;
-}
-
-.btn-normal {
-  color: var(--primary-color);
-  background-color: var(--secondary-color);
-  border: 2px solid var(--secondary-color);
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 400;
-  width: 100%;
-  height: 40px;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
-}
-
-.btn-default {
-  color: var(--secondary-color);
-  background-color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 800;
-  width: 100%;
-  height: 40px;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
 }
 </style>

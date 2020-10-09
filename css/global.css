@@ -126,3 +126,26 @@ input {
   content: "";
   display: table;
 }
+
+/* Button styling */
+.btn-normal {
+  color: var(--txt-color);
+  border: 0;
+  background-color: #ddd;
+  font-size: 24px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: -6px 4px 10px var(--secondary-color);
+  width: 100%;
+}
+
+.btn-default {
+  color: #ddd;
+  border: 0;
+  background-color: var(--primary-color);
+  font-size: 24px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: -6px 4px 10px var(--secondary-color);
+  width: 100%;
+}
