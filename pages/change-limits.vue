@@ -137,7 +137,7 @@ export default {
             yes: "Ja"
           },
           callback: confirm => {
-            console.log("confirm callback");
+            // console.log("confirm callback");
             if (confirm) {
               history.back();
             }

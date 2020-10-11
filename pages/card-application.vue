@@ -111,7 +111,7 @@ export default {
             yes: "Ja"
           },
           callback: confirm => {
-            console.log("confirm callback");
+            // console.log("confirm callback");
             if (confirm) {
               history.back();
             }
@@ -214,6 +214,7 @@ export default {
 
 .select-account {
   width: 100%;
+  height: 30px;
   font-size: 16px;
 }
 
@@ -230,6 +231,7 @@ export default {
 
 .select-card {
   width: 100%;
+  height: 30px;
   font-size: 16px;
 }
 
@@ -246,6 +248,7 @@ export default {
 
 .select-limit {
   width: 100%;
+  height: 30px;
   font-size: 16px;
 }
 

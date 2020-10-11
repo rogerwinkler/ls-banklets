@@ -144,6 +144,7 @@ export default {
 
 .select-card {
   width: 80%;
+  height: 30px;
   position: absolute;
   left: 10%;
   top: 67px;
