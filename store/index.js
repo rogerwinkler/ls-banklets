@@ -1,6 +1,6 @@
 export const state = () => ({
   // output debug statements if "debug = true"
-  debug: true,
+  debug: false,
 
   // the currently selected menu item, "" if none is selected
   bpKey: "musteralfred",
@@ -16,8 +16,8 @@ export const state = () => ({
         monthly: 3000,
         daily: 600
       },
-      regions: ["Europe", "North America"],
-      blocked: false
+      regions: [0, 1],
+      locked: false
     },
     {
       name: "Visa KSK/FDS 5230 3490 5107 9350",
@@ -25,8 +25,8 @@ export const state = () => ({
         monthly: 10000,
         daily: 1500
       },
-      regions: ["Europe", "North America", "Australia"],
-      blocked: false
+      regions: [0, 1, 3],
+      locked: false
     },
     {
       name: "UBS CH88 0020 2829 Q080 8383 0",
@@ -34,8 +34,8 @@ export const state = () => ({
         monthly: 2000,
         daily: 500
       },
-      regions: ["Europe"],
-      blocked: false
+      regions: [0],
+      locked: false
     },
     {
       name: "ZKB CH87 9483 8473 0000 7373 6",
@@ -43,21 +43,120 @@ export const state = () => ({
         monthly: 5000,
         daily: 800
       },
-      regions: ["Europe", "Russia", "Middle East"],
-      blocked: false
+      regions: [0, 5, 6],
+      locked: true
     }
   ],
 
   // regions
   regions: [
-    "Europe",
-    "North America",
-    "South America",
-    "Australia",
-    "Asia",
-    "Russia",
-    "Middle East",
-    "Africa"
+    "Europe",         // 0
+    "North America",  // 1
+    "South America",  // 2
+    "Australia",      // 3
+    "Asia",           // 4
+    "Russia",         // 5
+    "Middle East",    // 6
+    "Africa",         // 7
+  ],
+
+  // Accounts
+  accounts: [
+    "",
+    "10.233.234.X2",
+    "20.345.687.XX",
+    "22.234.576.XY",
+    "23.687.247.Z8",
+    "43.142.234.24",
+    "88.987.003.ZZ",
+  ],
+
+  // card types
+  cardTypes: [
+    "",
+    "Visa Gold",
+    "Visa Silver",
+    "Visa Platinum", 
+    "Visa Debit",
+    "Mastercard",
+    "MC Debit",
+    "MC Deluxe",
+    "MC Phantom V",
+    "MC Bugatti",
+    "barclaycard",
+    "Maestro Debit",
+    "Amex",
+    "Amex Platinum",
+    "Amex Black",
+    "Amex Payback",
+    "Amex Gold",
+  ],
+
+  // monthly / global limits
+  limits: [
+    "",
+    300,
+    400,
+    500,
+    600,
+    700,
+    800,
+    900,
+    1000,
+    1100,
+    1200,
+    1300,
+    1400,
+    1500,
+    1600,
+    1700,
+    1800,
+    1900,
+    2000,
+    2200,
+    2400,
+    2600,
+    2800,
+    3000,
+    3200,
+    3400,
+    3600,
+    3800,
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    6500,
+    7000,
+    7500,
+    8000,
+    8500,
+    9000,
+    9500,
+    10000,
+    11000,
+    12000,
+    13000,
+    14000,
+    15000,
+    16000,
+    17000,
+    18000,
+    19000,
+    20000,
+    22000,
+    24000,
+    26000,
+    28000,
+    30000,
+    32000,
+    34000,
+    36000,
+    38000,
+    40000,
+    45000,
+    50000,
   ]
 });
 

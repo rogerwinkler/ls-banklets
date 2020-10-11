@@ -4,10 +4,10 @@
       <Nav title="Regionenfreischaltung" backbutton="true" />
     </div>
     <div class="content">
-      <div class="div-btn-section">
-        <ul class="ul-btn-section">
-          <li class="li-btn-section">
-            <div class="div-select">
+      <div class="div-selection">
+        <ul class="ul-selection">
+          <li class="li-selection">
+            <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
               <label class="label-card">Karte:</label>
               <label class="select-card">{{ card.name }}</label>
@@ -17,10 +17,10 @@
       </div>
       <div class="div-region">
         <ul class="ul-region">
-          <li v-for="cr in checkedRegions" :key="cr.region" class="li-region">
+          <li v-for="cr in checkedRegions" :key="cr.index" class="li-region">
             <input
               v-if="cr.checked"
-              :id="cr.region"
+              :id="cr.index"
               type="checkbox"
               :value="cr.region"
               :name="cr.region"
@@ -28,8 +28,8 @@
             />
             <input
               v-else
+              :id="cr.index"
               type="checkbox"
-              :id="cr.region"
               :value="cr.region"
               :name="cr.region"
             />
@@ -42,13 +42,13 @@
       <div class="btn-section">
         <div class="vf">
           gültig von:
+          <br />
           <input id="vf" type="date" />
         </div>
         <div class="vt">
-          <div class="input-clear">
-            bis:
-            <input id="vt" type="date" />
-          </div>
+          bis:
+          <br />
+          <input id="vt" type="date" />
         </div>
         <div class="cb">
           <button class="btn-normal" @click="cancel">
@@ -65,9 +65,9 @@
             Zurücksetzen
           </button>
         </div>
-        <div class="no"></div>
       </div>
     </div>
+    <notifications position="bottom center" />
   </div>
 </template>
 
@@ -83,37 +83,38 @@ export default {
 
   computed: {
     checkedRegions() {
+      // console.log("region-settings.vue::checkedRegions");
       let cr = [];
       for (let i = 0; i < this.regions.length; i++) {
-        if (this.regionCovered(this.regions[i], this.card)) {
-          cr.push({ region: this.regions[i], checked: true });
+        if (this.regionCovered(i, this.card)) {
+          cr.push({ index: i, region: this.regions[i], checked: true });
         } else {
-          cr.push({ region: this.regions[i], checked: false });
+          cr.push({ index: i, region: this.regions[i], checked: false });
         }
       }
-      console.log("cr=", cr);
+      // console.log("cr=", cr);
       return cr;
     }
   },
 
   mounted() {
-    // console.log("change-limits.vue::mounted");
+    // console.log("region-settings.vue::mounted");
     document.addEventListener("keypress", this.keyPressed);
   },
 
   destroyed() {
-    // console.log("change-limits.vue::destroyed");
+    // console.log("region-settings.vue::destroyed");
     document.removeEventListener("keypress", this.keyPressed);
   },
 
   methods: {
-    regionCovered(region, card) {
+    regionCovered(regionIndex, card) {
       // console.log(
       //   `region-settings.vue::regionCovered::region=${region}, card.regions=${card.regions}`
       // );
       for (let i = 0; i < card.regions.length; i++) {
         // console.log(`compare: ${card.regions[i]} === ${region}`);
-        if (card.regions[i] === region) {
+        if (card.regions[i] === regionIndex) {
           return true;
         }
       }
@@ -121,9 +122,105 @@ export default {
     },
 
     keyPressed(e) {
-      // console.log("change-limits.vue::keyPressed::e=", e);
+      // console.log("region-settings.vue::keyPressed::e=", e);
       if (e && e.key && e.key === "Enter") {
         this.save();
+      }
+    },
+
+    haveRegionsChanged() {
+      // console.log("region-settings.vue::haveRegionsChanged");
+      let cb;
+      for (let i = 0; i < this.$store.state.regions.length; i++) {
+        cb = document.getElementById(i.toString());
+        // console.log("cb.checked=", cb.checked);
+        if (
+          (!cb.checked && this.card.regions.indexOf(i) >= 0) ||
+          (cb.checked && this.card.regions.indexOf(i) < 0)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    cancel() {
+      // console.log("region-settings.vue::cancel");
+      if (this.haveRegionsChanged()) {
+        this.$confirm({
+          message:
+            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          button: {
+            no: "Nein",
+            yes: "Ja"
+          },
+          callback: confirm => {
+            console.log("confirm callback");
+            if (confirm) {
+              history.back();
+            }
+          }
+        });
+      } else {
+        history.back();
+      }
+    },
+
+    save() {
+      console.log("region-settings.vue::save");
+      if (this.haveRegionsChanged()) {
+        // deep clone card
+        const cardString = JSON.stringify(this.card);
+        const newCard = JSON.parse(cardString);
+        newCard.regions = [];
+        let cb;
+        for (let i = 0; i < this.$store.state.regions.length; i++) {
+          cb = document.getElementById(i.toString());
+          if (cb.checked) {
+            newCard.regions.push(i);
+          }
+        }
+        this.$store.commit("setCard", newCard);
+        this.card = this.$store.state.cards[this.$store.state.cardIndex];
+        this.$notify({
+          title: "Erfolg",
+          text: "Änderungen erfolgreich gespeichert!",
+          type: "success",
+          duration: 2000
+        });
+      } else {
+        this.$notify({
+          title: "Info",
+          text: "Regionen unverändert, nichts zu speichern.",
+          duration: 2000
+        });
+      }
+    },
+
+    reset() {
+      // console.log("region-settings.vue::reset");
+      if (this.haveRegionsChanged()) {
+        let cb;
+        for (let i = 0; i < this.$store.state.regions.length; i++) {
+          cb = document.getElementById(i.toString());
+          if (this.card.regions.indexOf(i) >= 0) {
+            cb.checked = true;
+          } else {
+            cb.checked = false;
+          }
+        }
+        this.$notify({
+          title: "Erfolg",
+          text: "Regionen erfolgreich zurückgesetzt!",
+          type: "success",
+          duration: 2000
+        });
+      } else {
+        this.$notify({
+          title: "Info",
+          text: "Regionen unverändert, nichts zurückzusetzen.",
+          duration: 2000
+        });
       }
     }
   }
@@ -141,29 +238,28 @@ export default {
 
 .content {
   z-index: 2;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
-.div-btn-section ul {
+.div-selection ul {
   list-style: none;
   text-align: center;
   margin: 0;
   padding: 0;
-  margin-bottom: 30px;
-  /* border: 1px solid var(--secondary-color); */
+  margin-bottom: 20px;
 }
 
-.div-btn-section li {
+.div-selection li {
   line-height: 3;
   position: relative;
 }
 
-.div-select {
+.div-selection-labels {
   display: inline-block;
   /* position: relative; */
   width: 80%;
   /* box-shadow: -6px 4px 10px var(--secondary-color); */
-  margin: 10px 0px 50px 0px;
+  margin: 10px 0px 60px 0px;
 }
 
 .label-bp-key {
@@ -197,11 +293,11 @@ export default {
   text-align: left;
   margin: 0;
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .li-region {
-  line-height: 1.8;
+  line-height: 1.5;
 }
 
 .label-checkbox {
@@ -214,64 +310,47 @@ export default {
   display: grid;
   width: 80%;
   left: 10%;
-  height: 160px;
+  right: 10%;
   grid-template:
-    "vf vt" 1fr
-    "cb sb" 1fr
-    "rb no" 1fr;
-  margin-bottom: 30px;
+    "vf vt" 50%
+    "cb sb" 50%
+    "rb rb" 50%;
+  grid-template-columns: 50% 50%;
   font-size: 20px;
 }
 
 .vf {
   grid-area: vf;
-  align-items: left;
   text-align: left;
-  padding-top: 0px;
-  /* background-color: lime; */
 }
 
 .vt {
   grid-area: vt;
-  align-items: left;
   text-align: left;
-  padding-top: 0px;
   padding-left: 10px;
-  /* display: flex; */
-  /* background-color: blue; */
 }
 
 .cb {
   grid-area: cb;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-right: 10px;
-  /* background-color: lightcoral; */
 }
 
 .sb {
   grid-area: sb;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 10px;
-  /* background-color: rosybrown; */
 }
 
 .rb {
   grid-area: rb;
-  padding-top: 16px;
-  padding-right: 10px;
-  /* background-color: maroon; */
-}
-
-.no {
-  grid-area: no;
-  /* background-color: magenta; */
+  padding-top: 4px;
 }
 
 #vf,
 #vt {
-  width: 50%;
-  font-size: 20px;
+  width: 100%;
+  font-size: 12px;
   text-align: right;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
 }
 </style>

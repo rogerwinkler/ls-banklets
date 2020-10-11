@@ -4,10 +4,10 @@
       <Nav title="Limitenanpassung" backbutton="true" />
     </div>
     <div class="content">
-      <div class="div-btn-section">
-        <ul class="ul-btn-section">
-          <li class="li-btn-section">
-            <div class="div-select">
+      <div class="div-selection">
+        <ul class="ul-selection">
+          <li class="li-selection">
+            <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
               <label class="label-card">Karte:</label>
               <label class="select-card">{{ card.name }}</label>
@@ -61,7 +61,6 @@
             Zurücksetzen
           </button>
         </div>
-        <div class="no"></div>
       </div>
       <div class="logo-section">
         <Logo />
@@ -71,7 +70,6 @@
       </div>
     </div>
     <notifications position="bottom center" />
-    <!-- <vue-confirm-dialog></vue-confirm-dialog> -->
   </div>
 </template>
 
@@ -114,8 +112,8 @@ export default {
       input.value = "";
     },
 
-    limitChanged() {
-      console.log("changeLimits.vue::limitChanged");
+    haveLimitsChanged() {
+      console.log("changeLimits.vue::haveLimitsChanged");
       const ml = document.getElementById("ml");
       const dl = document.getElementById("dl");
       if (
@@ -129,7 +127,7 @@ export default {
 
     cancel() {
       console.log("change-limits.vue::cancel");
-      if (this.limitChanged()) {
+      if (this.haveLimitsChanged()) {
         console.log("limitChanged::this.$confirm=", this.$confirm);
         this.$confirm({
           message:
@@ -152,7 +150,7 @@ export default {
 
     save() {
       // console.log("change-limits.vue::save");
-      if (this.limitChanged()) {
+      if (this.haveLimitsChanged()) {
         const ml = document.getElementById("ml");
         const dl = document.getElementById("dl");
         const cardString = JSON.stringify(this.card);
@@ -178,7 +176,7 @@ export default {
 
     reset() {
       console.log("change-limits.vue::reset");
-      if (this.limitChanged()) {
+      if (this.haveLimitsChanged()) {
         const ml = document.getElementById("ml");
         const dl = document.getElementById("dl");
         ml.value = this.card.limits.monthly;
@@ -215,7 +213,7 @@ export default {
   margin-top: 30px;
 }
 
-.div-btn-section ul {
+.div-selection ul {
   list-style: none;
   text-align: center;
   margin: 0;
@@ -224,12 +222,12 @@ export default {
   /* border: 1px solid var(--secondary-color); */
 }
 
-.div-btn-section li {
+.div-selection li {
   line-height: 3;
   position: relative;
 }
 
-.div-select {
+.div-selection-labels {
   display: inline-block;
   /* position: relative; */
   width: 80%;
@@ -262,29 +260,28 @@ export default {
   display: grid;
   width: 80%;
   left: 10%;
-  height: 200px;
+  right: 10%;
   grid-template:
-    "ml mla" 1fr
-    "dl dla" 1fr
-    "cb sb" 1fr
-    "rb no" 1fr;
-  margin-bottom: 30px;
+    "ml mla" 20%
+    "dl dla" 20%
+    "cb sb" 30%
+    "rb rb" 30%;
+  grid-template-columns: 50% 50%;
+  /* margin-bottom: 30px; */
   font-size: 20px;
 }
 
 .ml {
   grid-area: ml;
-  align-items: left;
   text-align: left;
-  padding-top: 20px;
+  padding-top: 10px;
   /* background-color: lime; */
 }
 
 .mla {
   grid-area: mla;
-  align-items: left;
   text-align: left;
-  padding-top: 10px;
+  padding-top: 4px;
   padding-left: 10px;
   display: flex;
   /* background-color: blue; */
@@ -294,7 +291,7 @@ export default {
   grid-area: dl;
   align-items: left;
   text-align: left;
-  padding-top: 20px;
+  padding-top: 10px;
   /* background-color: blueviolet; */
 }
 
@@ -302,7 +299,7 @@ export default {
   grid-area: dla;
   align-items: left;
   text-align: left;
-  padding-top: 10px;
+  padding-top: 4px;
   padding-left: 10px;
   display: flex;
   /* background-color: burlywood; */
@@ -310,39 +307,33 @@ export default {
 
 .cb {
   grid-area: cb;
-  padding-top: 40px;
+  padding-top: 30px;
   padding-right: 10px;
   /* background-color: lightcoral; */
 }
 
 .sb {
   grid-area: sb;
-  padding-top: 40px;
+  padding-top: 30px;
   padding-left: 10px;
   /* background-color: rosybrown; */
 }
 
 .rb {
   grid-area: rb;
-  padding-top: 16px;
-  padding-right: 10px;
+  padding-top: 26px;
   /* background-color: maroon; */
 }
 
-.no {
-  grid-area: no;
-  /* background-color: magenta; */
-}
-
 .logo-section {
-  position: absolute;
-  top: 450px;
-  left: 10%;
+  margin-top: 300px;
 }
 
 #ml,
 #dl {
   width: 100%;
+  height: 80%;
+  /* margin-top: 4px; */
   font-size: 20px;
   text-align: right;
   /* box-shadow: -6px 4px 10px var(--secondary-color); */
@@ -357,7 +348,7 @@ export default {
   background-color: transparent;
   border: none;
   font-size: 20px;
-  margin-top: 6px;
+  margin-top: 0px;
   margin-left: 5px;
   /* margin-left: -100px; */
   padding: 0;
