@@ -22,7 +22,12 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   // plugins: [{src: "~/plugins/vue-notification.js", ssr: false}],
   // plugins: ["~/plugins/vue-notification.client.js"],
-  plugins: ["~/plugins/vue-notification.js", "~/plugins/vue-confirm-dialog", "~/plugins/vrcode"],
+  plugins: [
+    "~/plugins/vue-notification.js", 
+    "~/plugins/vue-confirm-dialog", 
+    "~/plugins/vrcode", 
+    "~/plugins/i18n"
+  ],
   // plugins: [{src: "~/plugins/vue-notification.js", mode: 'client'}],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

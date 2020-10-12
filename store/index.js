@@ -2,6 +2,10 @@ export const state = () => ({
   // output debug statements if "debug = true"
   debug: false,
 
+  // locales support
+  locales: ["de", "en", "fr", "it"],
+  locale: "de",
+
   // the currently selected menu item, "" if none is selected
   bpKey: "musteralfred",
 
@@ -161,6 +165,15 @@ export const state = () => ({
 });
 
 export const mutations = {
+  setLocale(state, newLocale) {
+    if (state.debug) {
+      console.log("store::index.js::setLocale::newLocale=", newLocale);
+    }
+    if (state.locales.indexOf(newLocale) !== -1) {
+      state.locale = newLocale;
+    }
+  },
+
   setBPKey(state, newBPKey) {
     if (state.debug) {
       console.log("store::index.js::setBPKey::newBPKey=", newBPKey);

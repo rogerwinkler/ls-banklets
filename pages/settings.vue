@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Einstellungen" />
+      <Nav title="settings" />
     </div>
     <div class="content">
       <Logo />

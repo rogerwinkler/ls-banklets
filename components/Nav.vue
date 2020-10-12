@@ -18,7 +18,7 @@
       />
     </div>
     <div class="div-nav-title">
-      {{ title }}
+      {{ $t(title) }}
     </div>
     <div class="div-btn-menu">
       <button class="btn-menu" @click="toggleMenu">
