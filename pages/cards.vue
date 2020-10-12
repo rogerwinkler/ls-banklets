@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Kartenverwaltung" backbutton="true" />
+      <Nav :title="$t('card-admin')" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-btn-section">
@@ -9,7 +9,7 @@
           <li class="li-btn-section">
             <div class="div-select">
               <label class="label-bp-key"> BP Key: {{ bpKey }} </label>
-              <label class="label-select">Karte:</label>
+              <label class="label-select">{{ $t("card") }}:</label>
               <select class="select-card" name="card">
                 <option
                   v-for="card in cards"
@@ -22,27 +22,27 @@
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('change-limits')">
-              Limitanpassung
+              {{ $t("adjust-limits") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('region-settings')">
-              Regionenfreischaltung
+              {{ $t("region-settings") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('lock-unlock')">
-              Sperren / Entsperren
+              {{ $t("lock-unlock") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('new-pin')">
-              Neuer PIN
+              {{ $t("new-pin") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('card-application')">
-              Kartenantrag
+              {{ $t("card-application") }}
             </button>
           </li>
         </ul>

@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="QR-Payment" backbutton="true" />
+      <Nav :title="$t('qr-payment')" backbutton="true" />
     </div>
     <div class="content">
       <div class="bp-key">BP Key: {{ bpKey }}</div>
-      <div class="account">Konto:</div>
+      <div class="account">{{ $t("account") }}:</div>
       <div class="input-account">
         <select class="select-account" name="account" @change="accountChanged">
           <option v-for="account in accounts" :key="account" :value="account">{{
@@ -13,23 +13,23 @@
           }}</option>
         </select>
       </div>
-      <div class="amount">Betrag:</div>
+      <div class="amount">{{ $t("amount") }}:</div>
       <div class="input-amount">
         <input type="number" class="inp-amount" @change="amountChanged" />
       </div>
       <div class="cb">
         <button class="btn-normal" @click="cancel">
-          Abbrechen
+          {{ $t("cancel") }}
         </button>
       </div>
       <div class="sb">
         <button class="btn-default" @click="order">
-          Bestellen
+          {{ $t("order") }}
         </button>
       </div>
       <div class="rb">
         <button class="btn-normal" @click="reset">
-          Zurücksetzen
+          {{ $t("reset") }}
         </button>
       </div>
       <vrcode
@@ -102,11 +102,10 @@ export default {
       const amount = document.querySelector(".inp-amount");
       if ((!!account.value || !!amount.value) && !isVisible) {
         this.$confirm({
-          message:
-            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          message: this.$t("confirm-cancel"),
           button: {
-            no: "Nein",
-            yes: "Ja"
+            no: this.$t("no"),
+            yes: this.$t("yes")
           },
           callback: confirm => {
             // console.log("confirm callback");
@@ -127,17 +126,16 @@ export default {
       if (!account.value || !amount.value) {
         this.$notify({
           type: "warn",
-          title: "Achtung",
-          text:
-            "KONTO und BETRAG müssen ausgefüllt sein, damit ein QR-Payment bestellt werden kann!",
+          title: this.$t("attention"),
+          text: this.$t("order-qr-payment"),
           duration: 3000
         });
       } else {
         this.showQRCode();
         this.$notify({
           type: "success",
-          title: "Erfolg",
-          text: "QR-Payment erfolgreich bestellt!",
+          title: this.$t("success"),
+          text: this.$t("qr-payment-order-success"),
           duration: 2000
         });
       }
@@ -150,6 +148,11 @@ export default {
       account.value = "";
       amount.value = "";
       this.hideQRCode();
+      this.$notify({
+        type: "success",
+        title: this.$t("success"),
+        text: this.$t("mask-reset-success")
+      });
     }
   }
 };

@@ -2,9 +2,13 @@ export const state = () => ({
   // output debug statements if "debug = true"
   debug: false,
 
-  // locales support
+  // locales support (lang)
   locales: ["de", "en", "fr", "it"],
   locale: "de",
+
+  // confirmations and notifications
+  confirmations: true,
+  notifications: true,
 
   // the currently selected menu item, "" if none is selected
   bpKey: "musteralfred",
@@ -210,5 +214,19 @@ export const mutations = {
         return;
       }
     }
+  },
+
+  setConfirmations(wantConfirmations) {
+    if (state.debug) {
+      console.log("store::index.js::setConfirmations::wantConfirmations=", wantConfirmations);
+    }
+    state.confirmations = wantConfirmations;
+  },
+
+  setNotifications(wantNotifications) {
+    if (state.debug) {
+      console.log("store::index.js::setNotifications::wantNotifications=", wantNotifications);
+    }
+    state.notifications = wantNotifications;
   }
 };

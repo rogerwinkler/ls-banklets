@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="MX-Banklets" />
+      <Nav :title="$t('mx-banklets')" />
     </div>
     <div class="content">
       <div class="div-btn-section">
@@ -13,32 +13,32 @@
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('cards')">
-              Kartenverwaltung
+              {{ $t("card-admin") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('qr-payment')">
-              QR-Zahlung
+              {{ $t("qr-payment") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('settings')">
-              Einstellungen
+              {{ $t("settings") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('quick-tour')">
-              Quick Tour
+              {{ $t("quick-tour") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('about')">
-              Über MX-Banklets
+              {{ $t("about-mx-banklets") }}
             </button>
           </li>
           <li class="li-btn-section">
             <button class="btn-screen" @click="gotoLink('/')">
-              Logout
+              {{ $t("logout") }}
             </button>
           </li>
         </ul>
@@ -53,11 +53,9 @@
 
 <script>
 export default {
-  // data() {
-  //   return {
-  //     bpKey: this.$store.state.bpKey
-  //   };
-  // },
+  data() {
+    return {};
+  },
 
   computed: {
     bpKey() {

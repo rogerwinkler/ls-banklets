@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Kartenantrag" backbutton="true" />
+      <Nav :title="$t('card-application')" backbutton="true" />
     </div>
     <div class="content">
       <div class="bp-key">BP Key: {{ bpKey }}</div>
-      <div class="account">Konto:</div>
+      <div class="account">{{ $t("account") }}:</div>
       <div class="input-account">
         <select class="select-account" name="account">
           <option v-for="account in accounts" :key="account" :value="account">{{
@@ -13,7 +13,7 @@
           }}</option>
         </select>
       </div>
-      <div class="card">Karte:</div>
+      <div class="card">{{ $t("card") }}:</div>
       <div class="input-card">
         <select class="select-card" name="card">
           <option v-for="ct in cardTypes" :key="ct" :value="ct">{{
@@ -21,7 +21,7 @@
           }}</option>
         </select>
       </div>
-      <div class="limit">Limite:</div>
+      <div class="limit">{{ $t("limit") }}:</div>
       <div class="input-limit">
         <select class="select-limit" name="limit">
           <option v-for="limit in limits" :key="limit" :value="limit">{{
@@ -31,17 +31,17 @@
       </div>
       <div class="cb">
         <button class="btn-normal" @click="cancel">
-          Abbrechen
+          {{ $t("cancel") }}
         </button>
       </div>
       <div class="sb">
         <button class="btn-default" @click="send">
-          Abschicken
+          {{ $t("send") }}
         </button>
       </div>
       <div class="rb">
         <button class="btn-normal" @click="reset">
-          Zurücksetzen
+          {{ $t("reset") }}
         </button>
       </div>
       <div class="logo">
@@ -104,11 +104,10 @@ export default {
       // console.log("card-application::cancel");
       if (this.hasApplicationChanged()) {
         this.$confirm({
-          message:
-            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          message: this.$t("confirm-cancel"),
           button: {
-            no: "Nein",
-            yes: "Ja"
+            no: this.$t("no"),
+            yes: this.$t("yes")
           },
           callback: confirm => {
             // console.log("confirm callback");
@@ -131,16 +130,15 @@ export default {
       if (!this.allSelectsFilled()) {
         this.$notify({
           type: "warn",
-          title: "Achtung",
-          text:
-            "Alle drei Felder KONTO, KARTE und LIMITE müssen ausgefüllt sein.",
+          title: this.$t("warning"),
+          text: this.$t("all-three-inputs"),
           duration: 2000
         });
       } else {
         this.$notify({
           type: "success",
-          title: "Erfolg",
-          text: "Kartenantrag erfolgreich abgeschickt!",
+          title: this.$t("success"),
+          text: this.$t("application-sent-success"),
           duration: 2000
         });
         setTimeout(this.goBack, 2000);
@@ -153,14 +151,14 @@ export default {
         this.clearSelects();
         this.$notify({
           type: "success",
-          title: "Erfolg",
-          text: "Antrag erfolgreich zurückgesetzt!",
+          title: this.$t("success"),
+          text: this.$t("application-reset-success"),
           duration: 2000
         });
       } else {
         this.$notify({
           title: "Info",
-          text: "Es gibt nichts zurückzusetzen.",
+          text: this.$t("no-changes-no-reset"),
           duration: 2000
         });
       }

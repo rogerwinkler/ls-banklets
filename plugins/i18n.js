@@ -15,6 +15,7 @@ export default ({ app, store }) => {
   app.i18n = new VueI18n({ //construction a new VueI18n
     locale: store.state.locale,
     fallbackLocale: 'de',
+    silentTranslationWarn: true,
     messages: {
       //'locales' directory contains all the translations in the form of json files
       en,

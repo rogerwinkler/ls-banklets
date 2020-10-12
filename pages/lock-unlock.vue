@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Sperren / Entsperren" backbutton="true" />
+      <Nav :title="$t('lock-unlock')" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-selection">
@@ -9,7 +9,7 @@
           <li class="li-selection">
             <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
-              <label class="label-card">Karte:</label>
+              <label class="label-card">{{ $t("card") }}:</label>
               <label class="select-card">{{ card.name }}</label>
             </div>
           </li>
@@ -20,7 +20,7 @@
               disabled
               @click="setCardLocked(true)"
             >
-              Karte sperren
+              {{ $t("lock-card") }}
             </button>
           </li>
           <li class="li-btn-section">
@@ -30,7 +30,7 @@
               disabled
               @click="setCardLocked(false)"
             >
-              Sperrung aufheben
+              {{ $t("unlock-card") }}
             </button>
           </li>
         </ul>
@@ -68,11 +68,11 @@ export default {
       this.$store.commit("setCard", newCard);
       this.card = this.$store.state.cards[this.$store.state.cardIndex];
       const msg = isLocked
-        ? "Karte erfolgreich gesperrt!"
-        : "Karte erfolgreich entsperrt!";
+        ? this.$t("card-lock-success")
+        : this.$t("card-unlock-success");
       this.$notify({
         type: "success",
-        title: "Erfolg",
+        title: this.$t("success"),
         text: msg,
         duration: 2000
       });

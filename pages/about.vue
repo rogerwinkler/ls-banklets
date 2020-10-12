@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Über MX-Banklets" />
+      <Nav :title="$t('about-mx-banklets')" backbutton="true" />
     </div>
     <div class="content">
       <Logo />

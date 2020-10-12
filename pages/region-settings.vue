@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Regionenfreischaltung" backbutton="true" />
+      <Nav :title="$t('region-settings')" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-selection">
@@ -9,7 +9,7 @@
           <li class="li-selection">
             <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
-              <label class="label-card">Karte:</label>
+              <label class="label-card">{{ $t("card") }}:</label>
               <label class="select-card">{{ card.name }}</label>
             </div>
           </li>
@@ -41,28 +41,28 @@
       </div>
       <div class="btn-section">
         <div class="vf">
-          gültig von:
+          {{ $t("valid-from") }}:
           <br />
           <input id="vf" type="date" />
         </div>
         <div class="vt">
-          bis:
+          {{ $t("to") }}:
           <br />
           <input id="vt" type="date" />
         </div>
         <div class="cb">
           <button class="btn-normal" @click="cancel">
-            Abbrechen
+            {{ $t("cancel") }}
           </button>
         </div>
         <div class="sb">
           <button class="btn-default" @click="save">
-            Speichern
+            {{ $t("save") }}
           </button>
         </div>
         <div class="rb">
           <button class="btn-normal" @click="reset">
-            Zurücksetzen
+            {{ $t("reset") }}
           </button>
         </div>
       </div>
@@ -148,11 +148,10 @@ export default {
       // console.log("region-settings.vue::cancel");
       if (this.haveRegionsChanged()) {
         this.$confirm({
-          message:
-            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          message: this.$t("confirm-cancel"),
           button: {
-            no: "Nein",
-            yes: "Ja"
+            no: this.$t("no"),
+            yes: this.$t("yes")
           },
           callback: confirm => {
             // console.log("confirm callback");
@@ -183,15 +182,15 @@ export default {
         this.$store.commit("setCard", newCard);
         this.card = this.$store.state.cards[this.$store.state.cardIndex];
         this.$notify({
-          title: "Erfolg",
-          text: "Änderungen erfolgreich gespeichert!",
+          title: this.$t("success"),
+          text: this.$t("changes-saved-success"),
           type: "success",
           duration: 2000
         });
       } else {
         this.$notify({
           title: "Info",
-          text: "Regionen unverändert, nichts zu speichern.",
+          text: this.$t("no-changes-no-save"),
           duration: 2000
         });
       }
@@ -210,15 +209,15 @@ export default {
           }
         }
         this.$notify({
-          title: "Erfolg",
-          text: "Regionen erfolgreich zurückgesetzt!",
+          title: this.$t("success"),
+          text: this.$t("changes-reset-success"),
           type: "success",
           duration: 2000
         });
       } else {
         this.$notify({
           title: "Info",
-          text: "Regionen unverändert, nichts zurückzusetzen.",
+          text: this.$t("no-changes-no-reset"),
           duration: 2000
         });
       }

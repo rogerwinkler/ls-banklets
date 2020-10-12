@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Neuer PIN" backbutton="true" />
+      <Nav :title="$t('new-pin')" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-selection">
@@ -9,13 +9,13 @@
           <li class="li-selection">
             <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
-              <label class="label-card">Karte:</label>
+              <label class="label-card">{{ $t("card") }}:</label>
               <label class="select-card">{{ card.name }}</label>
             </div>
           </li>
           <li class="li-btn-section">
             <button id="btn-new-pin" class="btn-screen" @click="newPin">
-              Neuen PIN beantragen
+              {{ $t("request-new-pin") }}
             </button>
           </li>
         </ul>
@@ -43,8 +43,8 @@ export default {
       console.log("new-pin.vue::newPin");
       this.$notify({
         type: "success",
-        title: "Erfolg",
-        text: "Neuer PIN erfolgreich beantragt!",
+        title: this.$t("success"),
+        text: this.$t("new-pin-request-success"),
         duration: 2000
       });
       const btn = document.getElementById("btn-new-pin");

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav title="Limitenanpassung" backbutton="true" />
+      <Nav :title="$t('adjust-limits')" backbutton="true" />
     </div>
     <div class="content">
       <div class="div-selection">
@@ -9,16 +9,14 @@
           <li class="li-selection">
             <div class="div-selection-labels">
               <label class="label-bp-key">BP Key: {{ bpKey }}</label>
-              <label class="label-card">Karte:</label>
+              <label class="label-card">{{ $t("card") }}:</label>
               <label class="select-card">{{ card.name }}</label>
             </div>
           </li>
         </ul>
       </div>
       <div class="limits">
-        <div class="ml">
-          Monatslimite:
-        </div>
+        <div class="ml">{{ $t("monthly-limit") }}:</div>
         <div class="mla">
           <div class="input-clear">
             <input id="ml" type="number" :value="card.limits.monthly" />
@@ -31,9 +29,7 @@
             </button>
           </div>
         </div>
-        <div class="dl">
-          Tageslimite:
-        </div>
+        <div class="dl">{{ $t("daily-limit") }}:</div>
         <div class="dla">
           <div class="input-clear">
             <input id="dl" type="number" :value="card.limits.daily" />
@@ -48,17 +44,17 @@
         </div>
         <div class="cb">
           <button class="btn-normal" @click="cancel">
-            Abbrechen
+            {{ $t("cancel") }}
           </button>
         </div>
         <div class="sb">
           <button class="btn-default" @click="save">
-            Speichern
+            {{ $t("save") }}
           </button>
         </div>
         <div class="rb">
           <button class="btn-normal" @click="reset">
-            Zurücksetzen
+            {{ $t("reset") }}
           </button>
         </div>
       </div>
@@ -130,11 +126,10 @@ export default {
       if (this.haveLimitsChanged()) {
         console.log("limitChanged::this.$confirm=", this.$confirm);
         this.$confirm({
-          message:
-            "Wollen Sie wirkllich abbrechen, Änderungen gehen verloren!?",
+          message: this.$t("confirm-cancel"),
           button: {
-            no: "Nein",
-            yes: "Ja"
+            no: this.$t("no"),
+            yes: this.$t("yes")
           },
           callback: confirm => {
             // console.log("confirm callback");
@@ -160,15 +155,15 @@ export default {
         this.$store.commit("setCard", newCard);
         this.card = this.$store.state.cards[this.$store.state.cardIndex];
         this.$notify({
-          title: "Erfolg",
-          text: "Änderungen erfolgreich gespeichert!",
+          title: this.$t("success"),
+          text: this.$t("changes-saved-success"),
           type: "success",
           duration: 2000
         });
       } else {
         this.$notify({
           title: "Info",
-          text: "Limiten unverändert, nichts zu speichern.",
+          text: "Keine Änderungen, nichts zu speichern.",
           duration: 2000
         });
       }
@@ -182,15 +177,15 @@ export default {
         ml.value = this.card.limits.monthly;
         dl.value = this.card.limits.daily;
         this.$notify({
-          title: "Erfolg",
-          text: "Limiten erfolgreich zurückgesetzt!",
+          title: this.$t("success"),
+          text: this.$t("changes-reset-success"),
           type: "success",
           duration: 2000
         });
       } else {
         this.$notify({
           title: "Info",
-          text: "Limiten unverändert, nichts zurückzusetzen.",
+          text: this.$t("no-changes-no-reset"),
           duration: 2000
         });
       }
