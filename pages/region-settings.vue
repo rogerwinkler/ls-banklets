@@ -33,7 +33,7 @@
               :value="cr.region"
               :name="cr.region"
             />
-            <label class="label-checkbox" :for="cr.region">
+            <label class="label-checkbox" :for="cr.index">
               {{ cr.region }}
             </label>
           </li>
@@ -146,7 +146,7 @@ export default {
 
     cancel() {
       // console.log("region-settings.vue::cancel");
-      if (this.haveRegionsChanged()) {
+      if (this.$store.state.confirmations && this.haveRegionsChanged()) {
         this.$confirm({
           message: this.$t("confirm-cancel"),
           button: {
@@ -166,7 +166,7 @@ export default {
     },
 
     save() {
-      console.log("region-settings.vue::save");
+      // console.log("region-settings.vue::save");
       if (this.haveRegionsChanged()) {
         // deep clone card
         const cardString = JSON.stringify(this.card);
@@ -185,8 +185,11 @@ export default {
           title: this.$t("success"),
           text: this.$t("changes-saved-success"),
           type: "success",
-          duration: 2000
+          duration: 3000
         });
+        setTimeout(() => {
+          history.back();
+        }, 2000);
       } else {
         this.$notify({
           title: "Info",
@@ -208,18 +211,22 @@ export default {
             cb.checked = false;
           }
         }
-        this.$notify({
-          title: this.$t("success"),
-          text: this.$t("changes-reset-success"),
-          type: "success",
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            title: this.$t("success"),
+            text: this.$t("changes-reset-success"),
+            type: "success",
+            duration: 2000
+          });
+        }
       } else {
-        this.$notify({
-          title: "Info",
-          text: this.$t("no-changes-no-reset"),
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            title: "Info",
+            text: this.$t("no-changes-no-reset"),
+            duration: 2000
+          });
+        }
       }
     }
   }

@@ -102,7 +102,7 @@ export default {
 
     cancel() {
       // console.log("card-application::cancel");
-      if (this.hasApplicationChanged()) {
+      if (this.$store.state.confirmations && this.hasApplicationChanged()) {
         this.$confirm({
           message: this.$t("confirm-cancel"),
           button: {
@@ -121,10 +121,6 @@ export default {
       }
     },
 
-    goBack() {
-      history.back();
-    },
-
     send() {
       // console.log("card-application::send");
       if (!this.allSelectsFilled()) {
@@ -139,9 +135,11 @@ export default {
           type: "success",
           title: this.$t("success"),
           text: this.$t("application-sent-success"),
-          duration: 2000
+          duration: 3000
         });
-        setTimeout(this.goBack, 2000);
+        setTimeout(() => {
+          history.back();
+        }, 2000);
       }
     },
 
@@ -149,18 +147,22 @@ export default {
       // console.log("card-application::reset");
       if (this.hasApplicationChanged()) {
         this.clearSelects();
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          text: this.$t("application-reset-success"),
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            type: "success",
+            title: this.$t("success"),
+            text: this.$t("application-reset-success"),
+            duration: 2000
+          });
+        }
       } else {
-        this.$notify({
-          title: "Info",
-          text: this.$t("no-changes-no-reset"),
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            title: "Info",
+            text: this.$t("no-changes-no-reset"),
+            duration: 2000
+          });
+        }
       }
     }
   }

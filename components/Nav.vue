@@ -125,6 +125,7 @@ export default {
 
 <style>
 nav {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

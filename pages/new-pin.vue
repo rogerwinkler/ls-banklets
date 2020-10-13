@@ -40,15 +40,18 @@ export default {
 
   methods: {
     newPin() {
-      console.log("new-pin.vue::newPin");
+      // console.log("new-pin.vue::newPin");
       this.$notify({
         type: "success",
         title: this.$t("success"),
         text: this.$t("new-pin-request-success"),
-        duration: 2000
+        duration: 3000
       });
       const btn = document.getElementById("btn-new-pin");
       btn.disabled = true;
+      setTimeout(() => {
+        history.back();
+      }, 2000);
     }
   }
 };

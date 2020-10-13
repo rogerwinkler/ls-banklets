@@ -77,6 +77,9 @@ export default {
         duration: 2000
       });
       this.setDisabledStates();
+      setTimeout(() => {
+        history.back();
+      }, 2000);
     },
 
     setDisabledStates() {

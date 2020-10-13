@@ -49,7 +49,7 @@
   "select-lang" : "Sprache wählen",
   "send" : "Abschicken",
   "settings" : "Einstellungen",
-  "settings-success-" : "Die Einstellungen wurden erfolgreich gespeichert!",
+  "settings-stored-success" : "Die Einstellungen wurden erfolgreich gespeichert!",
   "success" : "Erfolg",
   "swipe-through-the-tour-" : "Wischen Sie durch die Quick-Tour, um einen Überblick über die Features der MX-Banklets zu bekommen. ",
   "take-the-tour-" : "Nehmen Sie die Quick-Tour, um einen ersten Überblick über die Features von MX-Banklets zu erhalten.",

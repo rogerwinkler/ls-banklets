@@ -158,26 +158,67 @@ export default {
   },
 
   methods: {
+    hasInputChanged() {
+      if (!document.getElementById(this.locale).checked) return true;
+      if (document.getElementById("show-conf").checked !== this.confirmations)
+        return true;
+      if (document.getElementById("show-notif").checked !== this.notifications)
+        return true;
+      return false;
+    },
+
     cancel() {
-      console.log("settings.vue::cancel");
+      // console.log("settings.vue::cancel");
+      if (this.$store.state.confirmations && this.hasInputChanged()) {
+        this.$confirm({
+          message: this.$t("confirm-cancel"),
+          button: {
+            no: this.$t("no"),
+            yes: this.$t("yes")
+          },
+          callback: confirm => {
+            if (confirm) {
+              history.back();
+            }
+          }
+        });
+      } else {
+        history.back();
+      }
     },
 
     save() {
-      console.log("settings.vue::save");
-    },
-
-    reset() {
-      // console.log("qr-payment.vue::reset");
-      const account = document.querySelector(".select-account");
-      const amount = document.querySelector(".inp-amount");
-      account.value = "";
-      amount.value = "";
-      this.hideQRCode();
-      this.$notify({
-        type: "success",
-        title: this.$t("success"),
-        text: this.$t("mask-reset-success")
-      });
+      // console.log("settings.vue::save");
+      if (this.hasInputChanged()) {
+        const en = document.getElementById("en");
+        const fr = document.getElementById("fr");
+        const it = document.getElementById("it");
+        const conf = document.getElementById("show-conf");
+        const notif = document.getElementById("show-notif");
+        let lang = "de"; // default
+        if (en.checked) lang = "en";
+        if (fr.checked) lang = "fr";
+        if (it.checked) lang = "it";
+        this.$store.commit("setLocale", lang);
+        this.$i18n.locale = lang;
+        this.$store.commit("setConfirmations", conf.checked);
+        this.$store.commit("setNotifications", notif.checked);
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          text: this.$t("settings-stored-success"),
+          duration: 2000
+        });
+        setTimeout(() => {
+          this.$router.push("main");
+        }, 2000);
+      } else {
+        this.$notify({
+          title: "Info",
+          text: this.$t("no-changes-no-save"),
+          duration: 2000
+        });
+      }
     }
   }
 };

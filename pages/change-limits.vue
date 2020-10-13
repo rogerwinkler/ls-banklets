@@ -103,13 +103,13 @@ export default {
     },
 
     clearInput(inputId) {
-      console.log("index.vue::clearInput::inputId=", inputId);
+      // console.log("index.vue::clearInput::inputId=", inputId);
       const input = document.querySelector(`#${inputId}`);
       input.value = "";
     },
 
     haveLimitsChanged() {
-      console.log("changeLimits.vue::haveLimitsChanged");
+      // console.log("changeLimits.vue::haveLimitsChanged");
       const ml = document.getElementById("ml");
       const dl = document.getElementById("dl");
       if (
@@ -122,9 +122,8 @@ export default {
     },
 
     cancel() {
-      console.log("change-limits.vue::cancel");
-      if (this.haveLimitsChanged()) {
-        console.log("limitChanged::this.$confirm=", this.$confirm);
+      // console.log("change-limits.vue::cancel");
+      if (this.$store.state.confirmations && this.haveLimitsChanged()) {
         this.$confirm({
           message: this.$t("confirm-cancel"),
           button: {
@@ -160,34 +159,41 @@ export default {
           type: "success",
           duration: 2000
         });
+        setTimeout(() => {
+          history.back();
+        }, 2000);
       } else {
         this.$notify({
           title: "Info",
-          text: "Keine Änderungen, nichts zu speichern.",
+          text: this.$t("no-changes-no-save"),
           duration: 2000
         });
       }
     },
 
     reset() {
-      console.log("change-limits.vue::reset");
+      // console.log("change-limits.vue::reset");
       if (this.haveLimitsChanged()) {
         const ml = document.getElementById("ml");
         const dl = document.getElementById("dl");
         ml.value = this.card.limits.monthly;
         dl.value = this.card.limits.daily;
-        this.$notify({
-          title: this.$t("success"),
-          text: this.$t("changes-reset-success"),
-          type: "success",
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            title: this.$t("success"),
+            text: this.$t("changes-reset-success"),
+            type: "success",
+            duration: 3000
+          });
+        }
       } else {
-        this.$notify({
-          title: "Info",
-          text: this.$t("no-changes-no-reset"),
-          duration: 2000
-        });
+        if (this.$store.state.notifications) {
+          this.$notify({
+            title: "Info",
+            text: this.$t("no-changes-no-reset"),
+            duration: 2000
+          });
+        }
       }
     }
   }

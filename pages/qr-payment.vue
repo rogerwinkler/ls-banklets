@@ -64,29 +64,29 @@ export default {
 
   methods: {
     showQRCode() {
-      console.log("qr-payment.vue::showQRCode");
+      // console.log("qr-payment.vue::showQRCode");
       const qrCode = document.getElementById("qr-code");
       qrCode.setAttribute("style", "visibility: visible");
     },
 
     hideQRCode() {
-      console.log("qr-payment.vue::hideQRCode");
+      // console.log("qr-payment.vue::hideQRCode");
       const qrCode = document.getElementById("qr-code");
       qrCode.setAttribute("style", "visibility: hidden");
     },
 
     accountChanged() {
-      console.log("qr-payment.vue::accountChanged");
+      // console.log("qr-payment.vue::accountChanged");
       this.hideQRCode();
     },
 
     amountChanged() {
-      console.log("qr-payment.vue::amountChanged");
+      // console.log("qr-payment.vue::amountChanged");
       this.hideQRCode();
     },
 
     cancel() {
-      console.log("qr-payment.vue::cancel");
+      // console.log("qr-payment.vue::cancel");
 
       // determine if qr-code is visible...
       const qrCode = document.getElementById("qr-code");
@@ -100,7 +100,11 @@ export default {
 
       const account = document.querySelector(".select-account");
       const amount = document.querySelector(".inp-amount");
-      if ((!!account.value || !!amount.value) && !isVisible) {
+      if (
+        this.$store.state.confirmations &&
+        (!!account.value || !!amount.value) &&
+        !isVisible
+      ) {
         this.$confirm({
           message: this.$t("confirm-cancel"),
           button: {
@@ -148,11 +152,13 @@ export default {
       account.value = "";
       amount.value = "";
       this.hideQRCode();
-      this.$notify({
-        type: "success",
-        title: this.$t("success"),
-        text: this.$t("mask-reset-success")
-      });
+      if (this.$store.state.notifications) {
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          text: this.$t("mask-reset-success")
+        });
+      }
     }
   }
 };
@@ -202,7 +208,7 @@ export default {
 .input-account {
   grid-area: input-account;
   text-align: left;
-  margin-left: -40%;
+  margin-left: -30%;
 }
 
 .select-account {
@@ -219,7 +225,7 @@ export default {
 .input-amount {
   grid-area: input-amount;
   text-align: left;
-  margin-left: -40%;
+  margin-left: -30%;
 }
 
 .inp-amount {

@@ -178,6 +178,21 @@ export const mutations = {
     }
   },
 
+  setConfirmations(state, wantConfirmations) {
+    if (state.debug) {
+      console.log("store::index.js::setConfirmations:wantConfirmations=", wantConfirmations);
+    }
+    state.confirmations = wantConfirmations;
+  },
+
+  setNotifications(state, wantNotifications) {
+    if (state.debug) {
+      console.log("store::index.js::setNotifications::wantNotifications=", wantNotifications);
+    }
+
+    state.notifications = wantNotifications;
+  },
+
   setBPKey(state, newBPKey) {
     if (state.debug) {
       console.log("store::index.js::setBPKey::newBPKey=", newBPKey);
@@ -215,18 +230,4 @@ export const mutations = {
       }
     }
   },
-
-  setConfirmations(wantConfirmations) {
-    if (state.debug) {
-      console.log("store::index.js::setConfirmations::wantConfirmations=", wantConfirmations);
-    }
-    state.confirmations = wantConfirmations;
-  },
-
-  setNotifications(wantNotifications) {
-    if (state.debug) {
-      console.log("store::index.js::setNotifications::wantNotifications=", wantNotifications);
-    }
-    state.notifications = wantNotifications;
-  }
 };

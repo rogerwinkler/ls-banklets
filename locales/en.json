@@ -49,7 +49,7 @@
   "select-lang" : "Select Language",
   "send" : "Send",
   "settings" : "Settings",
-  "settings-success-" : "Settings successfully stored!",
+  "settings-stored-success" : "Settings successfully stored!",
   "success" : "Success",
   "swipe-through-the-tour-" : "Swipe through the Quick-Tour to get an overview of MX-Banklets' features.",
   "take-the-tour-" : "Take the Quick-Tour to get an overview of MX-Banklets' features.",
@@ -60,7 +60,7 @@
   "valid-from" : "Valid From",
   "version" : "Version",
   "warning" : "Warning",
-  "show-confirmations" : "Confirmation messages",
+  "show-confirmations" : "Confirmations",
   "show-notifications" : "Notifications",
   "yes" : "Yes"
   }
