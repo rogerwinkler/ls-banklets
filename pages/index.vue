@@ -1,24 +1,48 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        Banklets
-      </h1>
-      <div class="input">
-        <label class="label-top">BP Key:</label>
-        <br />
-        <div class="input-clear">
-          <input id="bpKey" type="Text" />
-          <button class="btn-clear-input" @click="clearInput">
-            <img
-              class="img-clear-input"
-              src="/img/270-cancel-circle-blue.svg"
-              alt="Clear input field"
-            />
-          </button>
-        </div>
-        <!-- <br /> -->
+    <div class="content">
+      <div class="div-logo">
+        <Logo />
+        <h1 class="title">
+          Banklets
+        </h1>
+      </div>
+      <div class="div-lang">{{ $t("select-lang") }}:</div>
+      <div class="div-input-lang">
+        <select id="select-lang" name="lang" @change="changeLang">
+          <option id="de" value="de">Deutsch</option>
+          <option id="en" value="en">English</option>
+          <option id="fr" value="fr">Français</option>
+          <option id="it" value="it">Italiano</option>
+        </select>
+      </div>
+      <div class="div-user">
+        <label class="label-username">{{ $t("username") }}:</label>
+      </div>
+      <div class="div-input-user">
+        <input id="input-username" type="Text" />
+        <button class="btn-clear-input" @click="clearUsername">
+          <img
+            class="img-clear-input"
+            src="/img/270-cancel-circle-blue.svg"
+            alt="Clear input field"
+          />
+        </button>
+      </div>
+      <div class="div-pwd">
+        <label class="label-div-pwd">{{ $t("password") }}:</label>
+      </div>
+      <div class="div-input-pwd">
+        <input id="input-pwd" type="Password" />
+        <button class="btn-clear-input" @click="clearPwd">
+          <img
+            class="img-clear-input"
+            src="/img/270-cancel-circle-blue.svg"
+            alt="Clear input field"
+          />
+        </button>
+      </div>
+      <div class="div-login">
         <button class="cta full-screen" @click="login">Login</button>
       </div>
     </div>
@@ -28,17 +52,19 @@
 
 <script>
 export default {
-  // data() {
-  //   return {
-  //     lang: this.$store.state.lang
-  //   };
-  // },
+  data() {
+    return {
+      lang: this.$store.state.locale
+    };
+  },
 
   // props: ["slug", "attributes", "target"],
 
   mounted() {
-    // console.log("index.vue::mounted");
+    console.log("index.vue::mounted");
     document.addEventListener("keypress", this.handleKeyPressEvent);
+    const lang = document.getElementById("select-lang");
+    lang.value = this.lang;
   },
 
   destroyed() {
@@ -47,26 +73,43 @@ export default {
   },
 
   methods: {
-    clearInput() {
-      // console.log("index.vue::clearInput");
-      const bpKeyInput = document.getElementById("bpKey");
-      // console.log("index.vue::clearInput::bpKeyInput=", bpKeyInput);
-      bpKeyInput.value = "";
+    changeLang() {
+      console.log("index.vue::changeLang");
+      const lang = document.getElementById("select-lang");
+      this.$store.commit("setLocale", lang.value);
+      this.$i18n.locale = lang.value;
+    },
+
+    clearUsername() {
+      // console.log("index.vue::clearUsername");
+      const username = document.getElementById("input-username");
+      username.value = "";
+    },
+
+    clearPwd() {
+      // console.log("index.vue::clearPassword");
+      const pwd = document.getElementById("input-pwd");
+      pwd.value = "";
     },
 
     login() {
       // console.log("login");
-      const bpKeyInput = document.getElementById("bpKey");
-      if (bpKeyInput && bpKeyInput.value) {
-        // console.log("bpKey=", bpKey);
-        this.$store.commit("setBPKey", bpKeyInput.value);
+      const username = document.getElementById("input-username");
+      const pwd = document.getElementById("input-pwd");
+      if (
+        username &&
+        username.value === "test" &&
+        pwd &&
+        pwd.value === "test"
+      ) {
+        this.$store.commit("setBPKey", "testuser");
         this.$router.push("/main");
       } else {
         this.$notify({
-          title: "Fehler",
-          text: "BP Key darf nicht leer sein!",
           type: "error",
-          duration: 2000
+          title: this.$t("error"),
+          text: this.$t("enter-username-pwd"),
+          duration: 4000
         });
       }
     },
@@ -89,12 +132,83 @@ export default {
 
 <style scoped>
 .container {
-  margin: 0 auto;
+  /* margin: 0 auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: center; */
+}
+
+.content {
+  display: grid;
+  grid-template:
+    "div-logo" 26%
+    "div-lang" 8%
+    "div-input-lang" 8%
+    "div-user" 8%
+    " div-input-user" 8%
+    "div-pwd" 8%
+    "div-input-pwd" 8%
+    "div-login" 26%;
+  grid-template-columns: 80%;
+}
+
+.div-logo {
+  grid-area: div-logo;
+}
+
+.div-lang {
+  gird-area: div-lang;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.div-input-lang {
+  grid-area: div-input-lang;
+  text-align: left;
+  display: flex;
+}
+
+.div-user {
+  grid-area: div-user;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.div-input-user {
+  grid-area: div-input-user;
+  text-align: left;
+  display: flex;
+}
+
+.div-pwd {
+  grid-area: div-pwd;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.div-input-pwd {
+  grid-area: div-input-pwd;
+  text-align: left;
+  display: flex;
+}
+
+#select-lang,
+#input-username,
+#input-pwd {
+  width: 80%;
+  height: 40px;
+  margin-top: 6px;
+  font-size: 20px;
+  color: var(--txt-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  background-color: white;
+}
+
+.div-login {
+  grid-area: div-login;
 }
 
 .title {
@@ -103,33 +217,19 @@ export default {
   display: block;
   font-weight: 400;
   font-size: 70px;
-  /* color: #35495e; */
-  /* color: var(--bg-color-tertiary); */
   color: var(--secondary-color);
   letter-spacing: 1px;
-}
-
-.input {
-  margin-top: 80px;
-}
-
-.input-clear {
-  display: grid;
-  grid-template-columns: auto auto;
-  margin-top: 10px;
 }
 
 .btn-clear-input {
   background-color: transparent;
   border: none;
   font-size: 20px;
-  margin-top: 4px;
-  margin-left: -10px;
-  padding: 0;
 }
 
 .img-clear-input {
   width: 25px;
+  margin-top: 10px;
 }
 
 .cta {

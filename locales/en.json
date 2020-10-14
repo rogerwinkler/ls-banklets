@@ -37,6 +37,7 @@
   "no-changes-no-save" : "No changes, nothing to save.",
   "ok" : "OK",
   "order" : "Order",
+  "password" : "Password",
   "order-qr-payment" : "To order a QR payment, please provide account and amount!",
   "qr-payment" : "QR Payment",
   "qr-payment-order-success" : "QR payment successfully ordered!",
@@ -62,6 +63,9 @@
   "warning" : "Warning",
   "show-confirmations" : "Confirmations",
   "show-notifications" : "Notifications",
+  "enter-username-pwd" : "Please enter username 'test' and password 'test'!",
+  "start-the-tour" : "Start the tour…",
+  "username" : "Username",
   "yes" : "Yes"
   }
   

@@ -19,7 +19,7 @@
         {{ $t("swipe-through-the-tour-") }}
       </div>
       <div class="div-btn">
-        <button @click="start">Beginne die Tour...</button>
+        <button @click="start">{{ $t("start-the-tour") }}</button>
       </div>
     </div>
   </div>

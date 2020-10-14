@@ -37,6 +37,7 @@
   "no-changes-no-save" : "Il n‘y a pas de modifications à sauvegarder.",
   "ok" : "OK",
   "order" : "Commander",
+  "password" : "Mot de passe",
   "order-qr-payment" : "Compte et montant doivent être remplis avant de commander un paiement QR!",
   "qr-payment" : "Paiement QR",
   "qr-payment-order-success" : "Le paiement QR a été commandé avec succès!",
@@ -62,6 +63,9 @@
   "warning" : "Attention",
   "show-confirmations" : "Confirmations",
   "show-notifications" : "Notifications",
+  "enter-username-pwd" : "Entrez le nom d‘utilisateur 'test' et le mot de passe 'test', s.v.p.!",
+  "start-the-tour" : "Commencez le tour…",
+  "username" : "Nom d'utilisateur",
   "yes" : "Oui"
   }
   

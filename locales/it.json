@@ -37,6 +37,7 @@
   "no-changes-no-save" : "Non ci sono modificazioni, niente da salvare.",
   "ok" : "OK",
   "order" : "Ordinare",
+  "password" : "Parola d'accesso",
   "order-qr-payment" : "Si prega di mettere a disposizione il conto e il montante per potere ordinare il pagamento QR! ",
   "qr-payment" : "Pagamento QR",
   "qr-payment-order-success" : "Pagemento QR è stato ordinato con successo.",
@@ -62,6 +63,9 @@
   "warning" : "Attenzione",
   "show-confirmations" : "Confirmazioni",
   "show-notifications" : "Notificazioni",
+  "enter-username-pwd" : "Pregasi immetere il nome dell utente 'test' e la parola d‘accesso 'test'!",
+  "start-the-tour" : "Incomincia il giro…",
+  "username" : "Nome utente",
   "yes" : "Sì"
   }
   

@@ -87,29 +87,32 @@ export default {
 
   mounted() {
     // console.log("slide-show.vue::mounted");
-    document.addEventListener("touchstart", this.handleStart);
-    document.addEventListener("touchmove", this.handleMove);
-    document.addEventListener("touchend", this.handleEnd);
+    const divSlide = document.querySelector(".div-slide");
+    divSlide.addEventListener("touchstart", this.handleStart);
+    divSlide.addEventListener("touchmove", this.handleMove);
+    divSlide.addEventListener("touchend", this.handleEnd);
     document.addEventListener("keydown", this.handleKeydownEvent);
     this.checkRadio(this.currentSlide);
   },
 
   destroyed() {
     // console.log("slide-show.vue::destroyed");
-    document.removeEventListener("touchstart", this.handleStart);
-    document.removeEventListener("touchmove", this.handleMove);
-    document.removeEventListener("touchend", this.handleEnd);
+    const divSlide = document.querySelector(".div-slide");
+    divSlide.removeEventListener("touchstart", this.handleStart);
+    divSlide.removeEventListener("touchmove", this.handleMove);
+    divSlide.removeEventListener("touchend", this.handleEnd);
     document.removeEventListener("keydown", this.handleKeydownEvent);
   },
 
   methods: {
     indicatorChange(index) {
-      console.log("slide-show.vue::indicatorChange::index=", index);
+      // console.log("slide-show.vue::indicatorChange::index=", index);
       this.currentSlide = index;
     },
 
-    imageClicked() {
-      console.log("slide-show.vue::imageClicked");
+    imageClicked(e) {
+      // console.log("slide-show.vue::imageClicked");
+      e.preventDefault();
       this.forward();
     },
 
@@ -131,6 +134,7 @@ export default {
       // console.log("slide-show.vue::handleEnd::e=", e.touches);
       // no move handle as a single touch/click
       if (this.touchX1 === 0 || this.touchX2 === 0) {
+        e.preventDefault();
         this.forward();
         return;
       }
@@ -146,7 +150,7 @@ export default {
     },
 
     handleKeydownEvent(e) {
-      // console.log("slide-show.vue::handleKeyPressEvent::e=", e);
+      console.log("slide-show.vue::handleKeyPressEvent::e=", e);
       if (e && (e.key === "ArrowRight" || e.key === "ArrowDown")) {
         this.forward();
       } else if (e && (e.key === "ArrowLeft" || e.key === "ArrowUp")) {
