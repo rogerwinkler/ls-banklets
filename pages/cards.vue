@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('card-admin')" backbutton="true" />
+      <Nav :title="$t('card-admin')" backlink="main" />
     </div>
     <div class="content">
       <div class="div-btn-section">

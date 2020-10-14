@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('quick-tour')" backbutton="true" />
+      <Nav :title="$t('quick-tour')" backlink="main" />
     </div>
     <div class="content">
       <div class="logo">

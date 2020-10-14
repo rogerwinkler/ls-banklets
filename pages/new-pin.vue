@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('new-pin')" backbutton="true" />
+      <Nav :title="$t('new-pin')" backlink="cards" />
     </div>
     <div class="content">
       <div class="div-selection">

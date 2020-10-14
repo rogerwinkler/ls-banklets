@@ -1,7 +1,7 @@
 <template>
   <nav class="site-navigation">
     <div class="div-nav-logo">
-      <button v-if="backbutton === 'true'" class="back-button" @click="goBack">
+      <button v-if="backlink" class="back-button" @click="gotoLink(backlink)">
         <img
           id="back-button"
           src="/img/321-arrow-left2-grey.svg"
@@ -71,7 +71,7 @@ export default {
     };
   },
 
-  props: ["title", "backbutton"],
+  props: ["title", "backlink"],
 
   mounted() {
     // console.log("component::Nav.vue::mounted");
@@ -105,19 +105,14 @@ export default {
         this.toggleMenu();
         e.preventDefault();
       }
-      if (e && e.key && e.key === "Backspace" && e.shiftKey) {
-        this.goBack();
+      if (this.backlink && e && e.key && e.key === "Backspace" && e.shiftKey) {
+        this.gotoLink(this.backlink);
       }
     },
 
     gotoLink(link) {
       // console.log("components::Nav.vue::gotoLink");
       this.$router.push(link);
-    },
-
-    goBack() {
-      // console.log("components::Nav.vue::goBack");
-      history.back();
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('about-mx-banklets')" backbutton="true" />
+      <Nav :title="$t('about-mx-banklets')" backlink="main" />
     </div>
     <div class="content">
       <div class="logo">

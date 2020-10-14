@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('card-application')" backbutton="true" />
+      <Nav :title="$t('card-application')" backlink="cards" />
     </div>
     <div class="content">
       <div class="bp-key">BP Key: {{ bpKey }}</div>

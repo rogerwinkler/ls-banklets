@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('region-settings')" backbutton="true" />
+      <Nav :title="$t('region-settings')" backlink="cards" />
     </div>
     <div class="content">
       <div class="div-selection">

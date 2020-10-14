@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav">
-      <Nav :title="$t('qr-payment')" backbutton="true" />
+      <Nav :title="$t('qr-payment')" backlink="main" />
     </div>
     <div class="content">
       <div class="bp-key">BP Key: {{ bpKey }}</div>
