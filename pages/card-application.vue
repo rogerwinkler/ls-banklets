@@ -4,7 +4,7 @@
       <Nav :title="$t('card-application')" backlink="cards" />
     </div>
     <div class="content">
-      <div class="bp-key">BP Key: {{ bpKey }}</div>
+      <div class="bp-key">User: {{ user }}</div>
       <div class="account">{{ $t("account") }}:</div>
       <div class="input-account">
         <select class="select-account" name="account">
@@ -59,7 +59,7 @@
 export default {
   data() {
     return {
-      bpKey: this.$store.state.bpKey,
+      user: this.$store.state.user,
       accounts: this.$store.state.accounts,
       cardTypes: this.$store.state.cardTypes,
       limits: this.$store.state.limits

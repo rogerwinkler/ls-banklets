@@ -8,7 +8,7 @@
         <ul class="ul-btn-section">
           <li class="li-btn-section">
             <div class="div-select">
-              <label class="label-bp-key">BP Key: {{ bpKey }}</label>
+              <label class="label-bp-key">User: {{ user }}</label>
             </div>
           </li>
           <li class="li-btn-section">
@@ -54,14 +54,16 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: this.$store.state.user
+    };
   },
 
-  computed: {
-    bpKey() {
-      return this.$store.state.bpKey;
-    }
-  },
+  // computed: {
+  //   user() {
+  //     return this.$store.state.user;
+  //   }
+  // },
 
   methods: {
     gotoLink(link) {

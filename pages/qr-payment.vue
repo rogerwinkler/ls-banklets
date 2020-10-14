@@ -4,7 +4,7 @@
       <Nav :title="$t('qr-payment')" backlink="main" />
     </div>
     <div class="content">
-      <div class="bp-key">BP Key: {{ bpKey }}</div>
+      <div class="bp-key">User: {{ user }}</div>
       <div class="account">{{ $t("account") }}:</div>
       <div class="input-account">
         <select class="select-account" name="account" @change="accountChanged">
@@ -56,7 +56,7 @@
 export default {
   data() {
     return {
-      bpKey: this.$store.state.bpKey,
+      user: this.$store.state.user,
       accounts: this.$store.state.accounts,
       filename: "mx-qr-code.png"
     };

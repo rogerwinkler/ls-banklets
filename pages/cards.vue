@@ -8,7 +8,7 @@
         <ul class="ul-btn-section">
           <li class="li-btn-section">
             <div class="div-select">
-              <label class="label-bp-key"> BP Key: {{ bpKey }} </label>
+              <label class="label-bp-key">User: {{ user }} </label>
               <label class="label-select">{{ $t("card") }}:</label>
               <select class="select-card" name="card">
                 <option
@@ -59,7 +59,7 @@
 export default {
   data() {
     return {
-      bpKey: this.$store.state.bpKey,
+      user: this.$store.state.user,
       cards: this.$store.state.cards
     };
   },

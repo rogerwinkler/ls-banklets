@@ -11,7 +11,7 @@ export const state = () => ({
   notifications: true,
 
   // the currently selected menu item, "" if none is selected
-  bpKey: "musteralfred",
+  user: "test",
 
   // store for selected card
   cardIndex: 0,
@@ -193,11 +193,11 @@ export const mutations = {
     state.notifications = wantNotifications;
   },
 
-  setBPKey(state, newBPKey) {
+  setUser(state, newUser) {
     if (state.debug) {
-      console.log("store::index.js::setBPKey::newBPKey=", newBPKey);
+      console.log("store::index.js::setUser::newUser=", newUser);
     }
-    state.bpKey = newBPKey;
+    state.user = newUser;
   },
 
   setCardIndex(state, newIndex) {
@@ -209,7 +209,7 @@ export const mutations = {
 
   setCardIndexByName(state, name) {
     if (state.debug) {
-      console.log("store::index.js::setBPKey::name=", name);
+      console.log("store::index.js::setCardIndexByName::name=", name);
     }
     for (let i=0; i<state.cards.length; i++) {
       if (state.cards[i].name === name) {
@@ -221,7 +221,7 @@ export const mutations = {
 
   setCard(state, newCard) {
     if (state.debug) {
-      console.log("store::index.js::setBPKey::newCard=", newCard);
+      console.log("store::index.js::setCard::newCard=", newCard);
     }
     for (let i=0; i<state.cards.length; i++) {
       if (state.cards[i].name === newCard.name) {

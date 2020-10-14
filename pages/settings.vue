@@ -4,7 +4,7 @@
       <Nav :title="$t('settings')" backlink="main" />
     </div>
     <div class="content">
-      <div class="bp-key">BP Key: {{ bpKey }}</div>
+      <div class="bp-key">User: {{ user }}</div>
       <div class="lang">
         {{ $t("select-lang") }}:
         <div class="div-radio">
@@ -150,7 +150,7 @@
 export default {
   data() {
     return {
-      bpKey: this.$store.state.bpKey,
+      user: this.$store.state.user,
       locale: this.$store.state.locale,
       confirmations: this.$store.state.confirmations,
       notifications: this.$store.state.notifications

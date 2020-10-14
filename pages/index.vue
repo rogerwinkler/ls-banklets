@@ -102,7 +102,7 @@ export default {
         pwd &&
         pwd.value === "test"
       ) {
-        this.$store.commit("setBPKey", "testuser");
+        this.$store.commit("setUser", "test");
         this.$router.push("/main");
       } else {
         this.$notify({
