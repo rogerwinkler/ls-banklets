@@ -142,7 +142,7 @@
         </h1>
       </div>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -214,7 +214,7 @@ export default {
         }, 2000);
       } else {
         this.$notify({
-          title: "Info",
+          title: this.$t("info"),
           text: this.$t("no-changes-no-save"),
           duration: 2000
         });

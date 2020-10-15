@@ -46,6 +46,20 @@ html {
     "content" auto;
 }
 
+@media only screen and (min-width: 600px) and (min-height: 700px) {
+  .container {
+    max-width: 380px;
+    max-height: 900px;
+    min-height: 700px;
+    border: 5px solid var(--secondary-color);
+    border-radius: 16px;
+  }
+
+  .site-navigation {
+    border-radius: 10px;
+  }
+}
+
 .nav {
   /* grid-row: 1; */
   grid-area: nav;

@@ -130,8 +130,8 @@ nav {
 
 .div-nav-logo {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0px;
+  top: 0px;
 }
 
 #img-logo {
@@ -140,8 +140,14 @@ nav {
 
 .div-btn-menu {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0px;
+  top: 0px;
+}
+
+@media only screen and (min-width: 600px) {
+  .div-nav-logo {
+    left: 8px;
+  }
 }
 
 .btn-menu {

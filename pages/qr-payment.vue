@@ -48,7 +48,7 @@
         }"
       ></vrcode>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 

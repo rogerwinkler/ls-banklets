@@ -4,68 +4,57 @@
       <Nav :title="$t('adjust-limits')" backlink="cards" />
     </div>
     <div class="content">
-      <div class="div-selection">
-        <ul class="ul-selection">
-          <li class="li-selection">
-            <div class="div-selection-labels">
-              <label class="label-bp-key">User: {{ user }}</label>
-              <label class="label-card">{{ $t("card") }}:</label>
-              <label class="select-card">{{ card.name }}</label>
-            </div>
-          </li>
-        </ul>
+      <div class="div-user">User: {{ user }}</div>
+      <div class="div-card">
+        {{ $t("card") }}:
+        <br />
+        {{ card.name }}
       </div>
-      <div class="limits">
-        <div class="ml">{{ $t("monthly-limit") }}:</div>
-        <div class="mla">
-          <div class="input-clear">
-            <input id="ml" type="number" :value="card.limits.monthly" />
-            <button class="btn-clear-input" @click="clearInput('ml')">
-              <img
-                class="img-clear-input"
-                src="/img/270-cancel-circle-blue.svg"
-                alt="Clear input field"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="dl">{{ $t("daily-limit") }}:</div>
-        <div class="dla">
-          <div class="input-clear">
-            <input id="dl" type="number" :value="card.limits.daily" />
-            <button class="btn-clear-input" @click="clearInput('dl')">
-              <img
-                class="img-clear-input"
-                src="/img/270-cancel-circle-blue.svg"
-                alt="Clear input field"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="cb">
-          <button class="btn-normal" @click="cancel">
-            {{ $t("cancel") }}
-          </button>
-        </div>
-        <div class="sb">
-          <button class="btn-default" @click="save">
-            {{ $t("save") }}
-          </button>
-        </div>
-        <div class="rb">
-          <button class="btn-normal" @click="reset">
-            {{ $t("reset") }}
-          </button>
-        </div>
+      <div class="div-ml-label">{{ $t("monthly-limit") }}:</div>
+      <div class="div-ml-input">
+        <input id="ml" type="number" :value="card.limits.monthly" />
+        <button class="btn-clear-input" @click="clearInput('ml')">
+          <img
+            class="img-clear-input"
+            src="/img/270-cancel-circle-blue.svg"
+            alt="Clear input field"
+          />
+        </button>
       </div>
-      <div class="logo-section">
+      <div class="div-dl-label">{{ $t("daily-limit") }}:</div>
+      <div class="div-dl-input">
+        <input id="dl" type="number" :value="card.limits.daily" />
+        <button class="btn-clear-input" @click="clearInput('dl')">
+          <img
+            class="img-clear-input"
+            src="/img/270-cancel-circle-blue.svg"
+            alt="Clear input field"
+          />
+        </button>
+      </div>
+      <div class="div-cb">
+        <button class="btn-normal" @click="cancel">
+          {{ $t("cancel") }}
+        </button>
+      </div>
+      <div class="div-sb">
+        <button class="btn-default" @click="save">
+          {{ $t("save") }}
+        </button>
+      </div>
+      <div class="div-rb">
+        <button class="btn-normal" @click="reset">
+          {{ $t("reset") }}
+        </button>
+      </div>
+      <div class="div-logo">
         <Logo />
         <h1 class="title">
           Banklets
         </h1>
       </div>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -164,7 +153,7 @@ export default {
         }, 2000);
       } else {
         this.$notify({
-          title: "Info",
+          title: this.$t("info"),
           text: this.$t("no-changes-no-save"),
           duration: 2000
         });
@@ -189,7 +178,7 @@ export default {
       } else {
         if (this.$store.state.notifications) {
           this.$notify({
-            title: "Info",
+            title: this.$t("info"),
             text: this.$t("no-changes-no-reset"),
             duration: 2000
           });
@@ -212,150 +201,95 @@ export default {
 .content {
   z-index: 2;
   margin-top: 30px;
-}
-
-.div-selection ul {
-  list-style: none;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 40px;
-  /* border: 1px solid var(--secondary-color); */
-}
-
-.div-selection li {
-  line-height: 3;
-  position: relative;
-}
-
-.div-selection-labels {
-  display: inline-block;
-  /* position: relative; */
   width: 80%;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
-  margin: 10px 0px 50px 0px;
-}
-
-.label-bp-key {
-  position: absolute;
-  left: 10%;
-  top: 0;
-}
-
-.label-card {
-  position: absolute;
-  left: 10%;
-  top: 35px;
-  white-space: nowrap;
-}
-
-.select-card {
-  position: absolute;
-  left: 10%;
-  top: 55px;
-  font-size: 16px;
-}
-
-.limits {
-  position: absolute;
+  margin-left: 10%;
   display: grid;
-  width: 80%;
-  left: 10%;
-  right: 10%;
   grid-template:
-    "ml mla" 20%
-    "dl dla" 20%
-    "cb sb" 30%
-    "rb rb" 30%;
+    "div-user div-user" 6%
+    "div-card div-card" 10%
+    "div-ml-label div-ml-input" 10%
+    "div-dl-label div-dl-input" 10%
+    "div-cb div-sb" 10%
+    "div-rb div-rb" 10%
+    "div-logo div-logo" 44%;
   grid-template-columns: 50% 50%;
-  /* margin-bottom: 30px; */
+  font-size: 16px;
+  color: var(--txt-color);
+}
+
+.div-user {
+  grid-area: div-user;
+  text-align: left;
+}
+
+.div-card {
+  grid-area: div-card;
+  text-align: left;
+}
+
+.div-ml-label {
+  grid-area: div-ml-label;
+  text-align: left;
   font-size: 20px;
 }
 
-.ml {
-  grid-area: ml;
+.div-ml-input {
+  grid-area: div-ml-input;
   text-align: left;
-  padding-top: 10px;
-  /* background-color: lime; */
 }
 
-.mla {
-  grid-area: mla;
+.div-dl-label {
+  grid-area: div-dl-label;
   text-align: left;
-  padding-top: 4px;
-  padding-left: 10px;
-  display: flex;
-  /* background-color: blue; */
+  font-size: 20px;
 }
 
-.dl {
-  grid-area: dl;
-  align-items: left;
+.div-dl-input {
+  grid-area: div-dl-input;
   text-align: left;
-  padding-top: 10px;
-  /* background-color: blueviolet; */
 }
 
-.dla {
-  grid-area: dla;
-  align-items: left;
-  text-align: left;
-  padding-top: 4px;
-  padding-left: 10px;
-  display: flex;
-  /* background-color: burlywood; */
-}
-
-.cb {
-  grid-area: cb;
+.div-cb {
+  grid-area: div-cb;
   padding-top: 30px;
   padding-right: 10px;
   /* background-color: lightcoral; */
 }
 
-.sb {
-  grid-area: sb;
+.div-sb {
+  grid-area: div-sb;
   padding-top: 30px;
   padding-left: 10px;
   /* background-color: rosybrown; */
 }
 
-.rb {
-  grid-area: rb;
+.div-rb {
+  grid-area: div-rb;
   padding-top: 26px;
   /* background-color: maroon; */
 }
 
-.logo-section {
-  margin-top: 300px;
+.div-logo {
+  grid-area: div-logo;
+}
+
+.img-clear-input {
+  width: 30px;
+  vertical-align: middle;
 }
 
 #ml,
 #dl {
-  width: 100%;
+  width: 60%;
   height: 80%;
-  /* margin-top: 4px; */
   font-size: 20px;
   text-align: right;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
-}
-
-.input-clear {
-  display: grid;
-  grid-template-columns: auto auto;
 }
 
 .btn-clear-input {
   background-color: transparent;
   border: none;
   font-size: 20px;
-  margin-top: 0px;
-  margin-left: 5px;
-  /* margin-left: -100px; */
-  padding: 0;
-}
-
-.img-clear-input {
-  width: 30px;
+  padding: 0px;
 }
 </style>

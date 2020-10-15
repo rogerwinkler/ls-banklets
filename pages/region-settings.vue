@@ -4,16 +4,11 @@
       <Nav :title="$t('region-settings')" backlink="cards" />
     </div>
     <div class="content">
-      <div class="div-selection">
-        <ul class="ul-selection">
-          <li class="li-selection">
-            <div class="div-selection-labels">
-              <label class="label-bp-key">User: {{ user }}</label>
-              <label class="label-card">{{ $t("card") }}:</label>
-              <label class="select-card">{{ card.name }}</label>
-            </div>
-          </li>
-        </ul>
+      <div class="div-user">User: {{ user }}</div>
+      <div class="div-card">
+        {{ $t("card") }}:
+        <br />
+        {{ card.name }}
       </div>
       <div class="div-region">
         <ul class="ul-region">
@@ -39,35 +34,33 @@
           </li>
         </ul>
       </div>
-      <div class="btn-section">
-        <div class="vf">
-          {{ $t("valid-from") }}:
-          <br />
-          <input id="vf" type="date" />
-        </div>
-        <div class="vt">
-          {{ $t("to") }}:
-          <br />
-          <input id="vt" type="date" />
-        </div>
-        <div class="cb">
-          <button class="btn-normal" @click="cancel">
-            {{ $t("cancel") }}
-          </button>
-        </div>
-        <div class="sb">
-          <button class="btn-default" @click="save">
-            {{ $t("save") }}
-          </button>
-        </div>
-        <div class="rb">
-          <button class="btn-normal" @click="reset">
-            {{ $t("reset") }}
-          </button>
-        </div>
+      <div class="div-valid-from">
+        {{ $t("valid-from") }}:
+        <br />
+        <input id="vf" type="date" />
+      </div>
+      <div class="div-valid-to">
+        {{ $t("to") }}:
+        <br />
+        <input id="vt" type="date" />
+      </div>
+      <div class="div-cb">
+        <button class="btn-normal" @click="cancel">
+          {{ $t("cancel") }}
+        </button>
+      </div>
+      <div class="div-sb">
+        <button class="btn-default" @click="save">
+          {{ $t("save") }}
+        </button>
+      </div>
+      <div class="div-rb">
+        <button id="rb" class="btn-normal" @click="reset">
+          {{ $t("reset") }}
+        </button>
       </div>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -192,7 +185,7 @@ export default {
         }, 2000);
       } else {
         this.$notify({
-          title: "Info",
+          title: this.$t("info"),
           text: this.$t("no-changes-no-save"),
           duration: 2000
         });
@@ -222,7 +215,7 @@ export default {
       } else {
         if (this.$store.state.notifications) {
           this.$notify({
-            title: "Info",
+            title: this.$t("info"),
             text: this.$t("no-changes-no-reset"),
             duration: 2000
           });
@@ -244,48 +237,71 @@ export default {
 
 .content {
   z-index: 2;
-  margin-top: 10px;
-}
-
-.div-selection ul {
-  list-style: none;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.div-selection li {
-  line-height: 3;
-  position: relative;
-}
-
-.div-selection-labels {
-  display: inline-block;
-  /* position: relative; */
+  margin-top: 30px;
   width: 80%;
-  /* box-shadow: -6px 4px 10px var(--secondary-color); */
-  margin: 10px 0px 60px 0px;
-}
-
-.label-bp-key {
-  position: absolute;
-  left: 10%;
-  top: 0;
-}
-
-.label-card {
-  position: absolute;
-  left: 10%;
-  top: 35px;
-  white-space: nowrap;
-}
-
-.select-card {
-  position: absolute;
-  left: 10%;
-  top: 55px;
+  margin-left: 10%;
+  display: grid;
+  grid-template:
+    "div-user div-user" 6%
+    "div-card div-card" 10%
+    "div-region div-region" 44%
+    "div-valid-from div-valid-to" 10%
+    "div-cb div-sb" 10%
+    "div-rb div-rb" 10%
+    "div-bottom-empty div-bottom-empty" 14%;
+  grid-template-columns: 50% 50%;
   font-size: 16px;
+  color: var(--txt-color);
+}
+
+.div-user {
+  grid-area: div-user;
+  text-align: left;
+}
+
+.div-card {
+  grid-area: div-card;
+  text-align: left;
+}
+
+.div-region {
+  grid-area: div-region;
+}
+
+.div-valid-from {
+  grid-area: div-valid-from;
+  text-align: left;
+  padding-right: 10px;
+}
+
+.div-valid-to {
+  grid-area: div-valid-to;
+  text-align: left;
+  padding-left: 10px;
+}
+
+#vf,
+#vt {
+  width: 100%;
+  font-size: 12px;
+}
+
+.div-cb {
+  grid-area: div-cb;
+  padding-right: 10px;
+}
+
+.div-sb {
+  grid-area: div-sb;
+  padding-left: 10px;
+}
+
+.div-rb {
+  grid-area: div-rb;
+}
+
+#rb {
+  vertical-align: top;
 }
 
 /* region styling */
@@ -308,55 +324,5 @@ export default {
 
 .label-checkbox {
   font-size: 20px;
-}
-
-/* button section styling */
-.btn-section {
-  position: absolute;
-  display: grid;
-  width: 80%;
-  left: 10%;
-  right: 10%;
-  grid-template:
-    "vf vt" 50%
-    "cb sb" 50%
-    "rb rb" 50%;
-  grid-template-columns: 50% 50%;
-  font-size: 20px;
-}
-
-.vf {
-  grid-area: vf;
-  text-align: left;
-}
-
-.vt {
-  grid-area: vt;
-  text-align: left;
-  padding-left: 10px;
-}
-
-.cb {
-  grid-area: cb;
-  padding-top: 20px;
-  padding-right: 10px;
-}
-
-.sb {
-  grid-area: sb;
-  padding-top: 20px;
-  padding-left: 10px;
-}
-
-.rb {
-  grid-area: rb;
-  padding-top: 4px;
-}
-
-#vf,
-#vt {
-  width: 100%;
-  font-size: 12px;
-  text-align: right;
 }
 </style>

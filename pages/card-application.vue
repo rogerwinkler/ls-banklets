@@ -51,7 +51,7 @@
         </h1>
       </div>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -158,7 +158,7 @@ export default {
       } else {
         if (this.$store.state.notifications) {
           this.$notify({
-            title: "Info",
+            title: this.$t("info"),
             text: this.$t("no-changes-no-reset"),
             duration: 2000
           });

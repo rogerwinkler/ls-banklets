@@ -39,7 +39,7 @@
           @click="imageClicked"
         />
       </div>
-      <div class="nav-indicator">
+      <div class="div-indicator">
         <input
           v-for="(slide, index) in slides"
           :key="index"
@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       currentSlide: 0,
-      slides: [
+      deSlides: [
         "/img/tour/qt-de-01.png",
         "/img/tour/qt-de-02.png",
         "/img/tour/qt-de-03.png",
@@ -80,9 +80,79 @@ export default {
         "/img/tour/qt-de-17.png",
         "/img/tour/qt-de-18.png"
       ],
+      enSlides: [
+        "/img/tour/qt-en-01.png",
+        "/img/tour/qt-en-02.png",
+        "/img/tour/qt-en-03.png",
+        "/img/tour/qt-en-04.png",
+        "/img/tour/qt-en-05.png",
+        "/img/tour/qt-en-06.png",
+        "/img/tour/qt-en-07.png",
+        "/img/tour/qt-en-08.png",
+        "/img/tour/qt-en-09.png",
+        "/img/tour/qt-en-10.png",
+        "/img/tour/qt-en-11.png",
+        "/img/tour/qt-en-12.png",
+        "/img/tour/qt-en-13.png",
+        "/img/tour/qt-en-14.png",
+        "/img/tour/qt-en-15.png",
+        "/img/tour/qt-en-16.png",
+        "/img/tour/qt-en-17.png",
+        "/img/tour/qt-en-18.png"
+      ],
+      frSlides: [
+        "/img/tour/qt-fr-01.png",
+        "/img/tour/qt-fr-02.png",
+        "/img/tour/qt-fr-03.png",
+        "/img/tour/qt-fr-04.png",
+        "/img/tour/qt-fr-05.png",
+        "/img/tour/qt-fr-06.png",
+        "/img/tour/qt-fr-07.png",
+        "/img/tour/qt-fr-08.png",
+        "/img/tour/qt-fr-09.png",
+        "/img/tour/qt-fr-10.png",
+        "/img/tour/qt-fr-11.png",
+        "/img/tour/qt-fr-12.png",
+        "/img/tour/qt-fr-13.png",
+        "/img/tour/qt-fr-14.png",
+        "/img/tour/qt-fr-15.png",
+        "/img/tour/qt-fr-16.png",
+        "/img/tour/qt-fr-17.png",
+        "/img/tour/qt-fr-18.png"
+      ],
+      itSlides: [
+        "/img/tour/qt-it-01.png",
+        "/img/tour/qt-it-02.png",
+        "/img/tour/qt-it-03.png",
+        "/img/tour/qt-it-04.png",
+        "/img/tour/qt-it-05.png",
+        "/img/tour/qt-it-06.png",
+        "/img/tour/qt-it-07.png",
+        "/img/tour/qt-it-08.png",
+        "/img/tour/qt-it-09.png",
+        "/img/tour/qt-it-10.png",
+        "/img/tour/qt-it-11.png",
+        "/img/tour/qt-it-12.png",
+        "/img/tour/qt-it-13.png",
+        "/img/tour/qt-it-14.png",
+        "/img/tour/qt-it-15.png",
+        "/img/tour/qt-it-16.png",
+        "/img/tour/qt-it-17.png",
+        "/img/tour/qt-it-18.png"
+      ],
       touchX1: 0,
       touchX2: 0
     };
+  },
+
+  computed: {
+    slides() {
+      // console.log("slide-show.vue::slides");
+      if (this.$store.state.locale === "de") return this.deSlides;
+      if (this.$store.state.locale === "en") return this.enSlides;
+      if (this.$store.state.locale === "fr") return this.frSlides;
+      if (this.$store.state.locale === "it") return this.itSlides;
+    }
   },
 
   mounted() {
@@ -139,7 +209,7 @@ export default {
         return;
       }
       const distance = this.touchX2 - this.touchX1;
-      console.log("distance=", distance);
+      // console.log("distance=", distance);
       this.touchX1 = 0;
       this.touchX2 = 0;
       if (distance > 50) {
@@ -150,7 +220,7 @@ export default {
     },
 
     handleKeydownEvent(e) {
-      console.log("slide-show.vue::handleKeyPressEvent::e=", e);
+      // console.log("slide-show.vue::handleKeyPressEvent::e=", e);
       if (e && (e.key === "ArrowRight" || e.key === "ArrowDown")) {
         this.forward();
       } else if (e && (e.key === "ArrowLeft" || e.key === "ArrowUp")) {
@@ -207,14 +277,24 @@ nav {
 
 .div-btn-left {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0px;
+  top: 0px;
 }
 
 .div-btn-right {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0px;
+  top: 0px;
+}
+
+@media only screen and (min-width: 600px) {
+  .div-btn-left {
+    left: 8px;
+  }
+
+  .div-btn-right {
+    right: 8px;
+  }
 }
 
 .div-btn-stop {
@@ -239,12 +319,15 @@ nav {
 
 .content {
   display: grid;
-  grid-template-rows: 90% 10%;
+  grid-template:
+    "div-slide" 90%
+    "div-indicator" 10%;
+  /* grid-template-rows: 90% 10%; */
   grid-template-columns: 100%;
 }
 
 .img-slide {
-  max-width: 80vw;
-  height: 80vh;
+  max-width: 80%;
+  max-height: 80%;
 }
 </style>

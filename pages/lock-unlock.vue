@@ -40,7 +40,7 @@
         Banklets
       </h1>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 

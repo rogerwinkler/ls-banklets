@@ -46,7 +46,7 @@
         <button class="cta full-screen" @click="login">Login</button>
       </div>
     </div>
-    <notifications position="bottom center" />
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -61,7 +61,7 @@ export default {
   // props: ["slug", "attributes", "target"],
 
   mounted() {
-    console.log("index.vue::mounted");
+    // console.log("index.vue::mounted");
     document.addEventListener("keypress", this.handleKeyPressEvent);
     const lang = document.getElementById("select-lang");
     lang.value = this.lang;
@@ -74,7 +74,7 @@ export default {
 
   methods: {
     changeLang() {
-      console.log("index.vue::changeLang");
+      // console.log("index.vue::changeLang");
       const lang = document.getElementById("select-lang");
       this.$store.commit("setLocale", lang.value);
       this.$i18n.locale = lang.value;
