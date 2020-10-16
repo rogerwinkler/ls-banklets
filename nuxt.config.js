@@ -1,10 +1,12 @@
 export default {
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  }
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
   // Target (https://go.nuxtjs.dev/config-target)
   target: "static",
-  baseUrl: process.env.BASE_URL || "http://localhost:3000",
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
