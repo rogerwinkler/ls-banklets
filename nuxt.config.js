@@ -2,6 +2,11 @@ export default {
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   },
+
+  router: {
+    base: process.env.ROUTER_BASE || '/'
+  },
+
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
