@@ -16,7 +16,7 @@
         <button class="btn-clear-input" @click="clearInput('ml')">
           <img
             class="img-clear-input"
-            src="/img/270-cancel-circle-blue.svg"
+            src="img/270-cancel-circle-blue.svg"
             alt="Clear input field"
           />
         </button>
@@ -27,7 +27,7 @@
         <button class="btn-clear-input" @click="clearInput('dl')">
           <img
             class="img-clear-input"
-            src="/img/270-cancel-circle-blue.svg"
+            src="img/270-cancel-circle-blue.svg"
             alt="Clear input field"
           />
         </button>

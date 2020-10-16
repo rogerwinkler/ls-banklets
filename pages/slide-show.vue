@@ -6,7 +6,7 @@
           <button class="btn-left" @click="backward">
             <img
               id="img-left"
-              src="/img/313-arrow-left-grey.svg"
+              src="img/313-arrow-left-grey.svg"
               alt="Arrow left"
             />
           </button>
@@ -16,16 +16,12 @@
         </div>
         <div class="div-btn-stop">
           <button class="btn-stop" @click="stop">
-            <img id="img-stop" src="/img/287-stop2-grey.svg" alt="Menu" />
+            <img id="img-stop" src="img/287-stop2-grey.svg" alt="Menu" />
           </button>
         </div>
         <div class="div-btn-right">
           <button class="btn-right" @click="forward">
-            <img
-              id="img-right"
-              src="/img/309-arrow-right-grey.svg"
-              alt="Menu"
-            />
+            <img id="img-right" src="img/309-arrow-right-grey.svg" alt="Menu" />
           </button>
         </div>
       </nav>
@@ -61,84 +57,84 @@ export default {
     return {
       currentSlide: 0,
       deSlides: [
-        "/img/tour/qt-de-01.png",
-        "/img/tour/qt-de-02.png",
-        "/img/tour/qt-de-03.png",
-        "/img/tour/qt-de-04.png",
-        "/img/tour/qt-de-05.png",
-        "/img/tour/qt-de-06.png",
-        "/img/tour/qt-de-07.png",
-        "/img/tour/qt-de-08.png",
-        "/img/tour/qt-de-09.png",
-        "/img/tour/qt-de-10.png",
-        "/img/tour/qt-de-11.png",
-        "/img/tour/qt-de-12.png",
-        "/img/tour/qt-de-13.png",
-        "/img/tour/qt-de-14.png",
-        "/img/tour/qt-de-15.png",
-        "/img/tour/qt-de-16.png",
-        "/img/tour/qt-de-17.png",
-        "/img/tour/qt-de-18.png"
+        "img/tour/qt-de-01.png",
+        "img/tour/qt-de-02.png",
+        "img/tour/qt-de-03.png",
+        "img/tour/qt-de-04.png",
+        "img/tour/qt-de-05.png",
+        "img/tour/qt-de-06.png",
+        "img/tour/qt-de-07.png",
+        "img/tour/qt-de-08.png",
+        "img/tour/qt-de-09.png",
+        "img/tour/qt-de-10.png",
+        "img/tour/qt-de-11.png",
+        "img/tour/qt-de-12.png",
+        "img/tour/qt-de-13.png",
+        "img/tour/qt-de-14.png",
+        "img/tour/qt-de-15.png",
+        "img/tour/qt-de-16.png",
+        "img/tour/qt-de-17.png",
+        "img/tour/qt-de-18.png"
       ],
       enSlides: [
-        "/img/tour/qt-en-01.png",
-        "/img/tour/qt-en-02.png",
-        "/img/tour/qt-en-03.png",
-        "/img/tour/qt-en-04.png",
-        "/img/tour/qt-en-05.png",
-        "/img/tour/qt-en-06.png",
-        "/img/tour/qt-en-07.png",
-        "/img/tour/qt-en-08.png",
-        "/img/tour/qt-en-09.png",
-        "/img/tour/qt-en-10.png",
-        "/img/tour/qt-en-11.png",
-        "/img/tour/qt-en-12.png",
-        "/img/tour/qt-en-13.png",
-        "/img/tour/qt-en-14.png",
-        "/img/tour/qt-en-15.png",
-        "/img/tour/qt-en-16.png",
-        "/img/tour/qt-en-17.png",
-        "/img/tour/qt-en-18.png"
+        "img/tour/qt-en-01.png",
+        "img/tour/qt-en-02.png",
+        "img/tour/qt-en-03.png",
+        "img/tour/qt-en-04.png",
+        "img/tour/qt-en-05.png",
+        "img/tour/qt-en-06.png",
+        "img/tour/qt-en-07.png",
+        "img/tour/qt-en-08.png",
+        "img/tour/qt-en-09.png",
+        "img/tour/qt-en-10.png",
+        "img/tour/qt-en-11.png",
+        "img/tour/qt-en-12.png",
+        "img/tour/qt-en-13.png",
+        "img/tour/qt-en-14.png",
+        "img/tour/qt-en-15.png",
+        "img/tour/qt-en-16.png",
+        "img/tour/qt-en-17.png",
+        "img/tour/qt-en-18.png"
       ],
       frSlides: [
-        "/img/tour/qt-fr-01.png",
-        "/img/tour/qt-fr-02.png",
-        "/img/tour/qt-fr-03.png",
-        "/img/tour/qt-fr-04.png",
-        "/img/tour/qt-fr-05.png",
-        "/img/tour/qt-fr-06.png",
-        "/img/tour/qt-fr-07.png",
-        "/img/tour/qt-fr-08.png",
-        "/img/tour/qt-fr-09.png",
-        "/img/tour/qt-fr-10.png",
-        "/img/tour/qt-fr-11.png",
-        "/img/tour/qt-fr-12.png",
-        "/img/tour/qt-fr-13.png",
-        "/img/tour/qt-fr-14.png",
-        "/img/tour/qt-fr-15.png",
-        "/img/tour/qt-fr-16.png",
-        "/img/tour/qt-fr-17.png",
-        "/img/tour/qt-fr-18.png"
+        "img/tour/qt-fr-01.png",
+        "img/tour/qt-fr-02.png",
+        "img/tour/qt-fr-03.png",
+        "img/tour/qt-fr-04.png",
+        "img/tour/qt-fr-05.png",
+        "img/tour/qt-fr-06.png",
+        "img/tour/qt-fr-07.png",
+        "img/tour/qt-fr-08.png",
+        "img/tour/qt-fr-09.png",
+        "img/tour/qt-fr-10.png",
+        "img/tour/qt-fr-11.png",
+        "img/tour/qt-fr-12.png",
+        "img/tour/qt-fr-13.png",
+        "img/tour/qt-fr-14.png",
+        "img/tour/qt-fr-15.png",
+        "img/tour/qt-fr-16.png",
+        "img/tour/qt-fr-17.png",
+        "img/tour/qt-fr-18.png"
       ],
       itSlides: [
-        "/img/tour/qt-it-01.png",
-        "/img/tour/qt-it-02.png",
-        "/img/tour/qt-it-03.png",
-        "/img/tour/qt-it-04.png",
-        "/img/tour/qt-it-05.png",
-        "/img/tour/qt-it-06.png",
-        "/img/tour/qt-it-07.png",
-        "/img/tour/qt-it-08.png",
-        "/img/tour/qt-it-09.png",
-        "/img/tour/qt-it-10.png",
-        "/img/tour/qt-it-11.png",
-        "/img/tour/qt-it-12.png",
-        "/img/tour/qt-it-13.png",
-        "/img/tour/qt-it-14.png",
-        "/img/tour/qt-it-15.png",
-        "/img/tour/qt-it-16.png",
-        "/img/tour/qt-it-17.png",
-        "/img/tour/qt-it-18.png"
+        "img/tour/qt-it-01.png",
+        "img/tour/qt-it-02.png",
+        "img/tour/qt-it-03.png",
+        "img/tour/qt-it-04.png",
+        "img/tour/qt-it-05.png",
+        "img/tour/qt-it-06.png",
+        "img/tour/qt-it-07.png",
+        "img/tour/qt-it-08.png",
+        "img/tour/qt-it-09.png",
+        "img/tour/qt-it-10.png",
+        "img/tour/qt-it-11.png",
+        "img/tour/qt-it-12.png",
+        "img/tour/qt-it-13.png",
+        "img/tour/qt-it-14.png",
+        "img/tour/qt-it-15.png",
+        "img/tour/qt-it-16.png",
+        "img/tour/qt-it-17.png",
+        "img/tour/qt-it-18.png"
       ],
       touchX1: 0,
       touchX2: 0

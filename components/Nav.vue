@@ -4,14 +4,14 @@
       <button v-if="backlink" class="back-button" @click="gotoLink(backlink)">
         <img
           id="back-button"
-          src="/img/321-arrow-left2-grey.svg"
+          src="img/321-arrow-left2-grey.svg"
           alt="Arrow left"
         />
       </button>
       <img
         v-else
         id="img-logo"
-        src="/img/logo-mx-cubic-grey.svg"
+        src="img/logo-mx-cubic-grey.svg"
         alt="Logo Monex AG"
         width="50px"
         height="30px"
@@ -22,7 +22,7 @@
     </div>
     <div class="div-btn-menu">
       <button class="btn-menu" @click="toggleMenu">
-        <img src="/img/190-menu-grey.svg" alt="Menu" />
+        <img src="img/190-menu-grey.svg" alt="Menu" />
       </button>
       <div class="div-menu">
         <ul class="ul-menu">
