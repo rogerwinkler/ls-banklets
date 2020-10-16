@@ -36,10 +36,17 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+body {
+  /* background-color: var(--mx-light-blue); */
+  /* background-color: var(--mx-dark-blue); */
+  background-color: var(--txt-color);
+}
+
 .container {
   max-width: 800px;
   margin: 0 auto;
   min-height: 100vh;
+  background-color: white;
   display: grid;
   grid-template:
     "nav" 40px
