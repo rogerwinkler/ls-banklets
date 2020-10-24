@@ -1,6 +1,8 @@
-# mx-banklets
+# MX-Banklets
 
 Responsive web app to showcase Monex' banklets, e.g. CAS, QR Payments etc.
+
+_Version 1.0.0_
 
 ## Node Version
 

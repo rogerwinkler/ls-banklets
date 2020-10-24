@@ -12,7 +12,7 @@
       </div>
       <hr />
       <div class="version-date">
-        <p>{{ $t("version") }}: 0.0.1 | Build: 85</p>
+        <p>{{ $t("version") }}: 1.0.0 | Build: 86</p>
         <p>{{ $t("date") }}: 2020-10-13</p>
       </div>
       <div class="copyright">
