@@ -1,10 +1,10 @@
 export default {
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL || "http://localhost:3000"
   },
 
   router: {
-    base: process.env.ROUTER_BASE || '/'
+    base: process.env.ROUTER_BASE || "/"
   },
 
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
@@ -17,6 +17,7 @@ export default {
   head: {
     title: "mx-banklets",
     meta: [
+      { name: "build", content: "88" },
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
@@ -37,9 +38,9 @@ export default {
   // plugins: [{src: "~/plugins/vue-notification.js", ssr: false}],
   // plugins: ["~/plugins/vue-notification.client.js"],
   plugins: [
-    "~/plugins/vue-notification.js", 
-    "~/plugins/vue-confirm-dialog", 
-    "~/plugins/vrcode", 
+    "~/plugins/vue-notification.js",
+    "~/plugins/vue-confirm-dialog",
+    "~/plugins/vrcode",
     "~/plugins/i18n"
   ],
   // plugins: [{src: "~/plugins/vue-notification.js", mode: 'client'}],
