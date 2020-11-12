@@ -28,32 +28,32 @@
         <ul class="ul-menu">
           <li>
             <button class="menu-btn" @click="gotoLink('cards')">
-              Karten
+              {{ $t("card-admin") }}
             </button>
           </li>
           <li>
             <button class="menu-btn" @click="gotoLink('qr-payment')">
-              QR-Zahlung
+              {{ $t("qr-payment") }}
             </button>
           </li>
           <li>
             <button class="menu-btn" @click="gotoLink('settings')">
-              Einstellungen
+              {{ $t("settings") }}
             </button>
           </li>
           <li>
             <button class="menu-btn" @click="gotoLink('quick-tour')">
-              Quick Tour
+              {{ $t("quick-tour") }}
             </button>
           </li>
           <li>
             <button class="menu-btn" @click="gotoLink('about')">
-              Über MX-Banklets
+              {{ $t("about-mx-banklets") }}
             </button>
           </li>
           <li>
             <button class="menu-btn" @click="gotoLink('/')">
-              Logout
+              {{ $t("logout") }}
             </button>
           </li>
         </ul>
@@ -111,7 +111,7 @@ export default {
     },
 
     gotoLink(link) {
-      // console.log("components::Nav.vue::gotoLink");
+      console.log("components::Nav.vue::gotoLink::link=", link);
       this.$router.push(link);
     }
   }

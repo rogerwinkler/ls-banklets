@@ -209,9 +209,9 @@ export default {
       this.touchX1 = 0;
       this.touchX2 = 0;
       if (distance > 50) {
-        this.forward();
-      } else if (distance < -50) {
         this.backward();
+      } else if (distance < -50) {
+        this.forward();
       }
     },
 
