@@ -1,54 +1,115 @@
 <template>
-  <div class="container">
-    <div class="nav">
-      <Nav :title="$t('qr-payment')" backlink="main" />
-    </div>
-    <div class="content">
-      <div class="bp-key">User: {{ user }}</div>
-      <div class="account">{{ $t("account") }}:</div>
-      <div class="input-account">
-        <select class="select-account" name="account" @change="accountChanged">
-          <option v-for="account in accounts" :key="account" :value="account">{{
-            account
-          }}</option>
-        </select>
-      </div>
-      <div class="amount">{{ $t("amount") }}:</div>
-      <div class="input-amount">
-        <input type="number" class="inp-amount" @change="amountChanged" />
-      </div>
-      <div class="cb">
-        <button class="btn-normal" @click="cancel">
-          {{ $t("cancel") }}
-        </button>
-      </div>
-      <div class="sb">
-        <button class="btn-default" @click="order">
-          {{ $t("order") }}
-        </button>
-      </div>
-      <div class="rb">
-        <button class="btn-normal" @click="reset">
-          {{ $t("reset") }}
-        </button>
-      </div>
-      <vrcode
-        id="qr-code"
-        class="qr-code"
-        :download="{
-          text: 'Download',
-          filename: filename,
-          visible: true,
-          type: 'image/png'
-        }"
-        value="A Vue component to generate QR Code and download."
-        :options="{
-          size: 200,
-          level: 'Q'
-        }"
-      ></vrcode>
-    </div>
-    <notifications position="top center" />
+  <div class="content">
+    <mx-overline>{{ $t("qr-payment") }}</mx-overline>
+    <v-card class="mb-2 vcard" elevation="2">
+      <v-card-text>
+        <v-select
+          v-model="account"
+          class="inp inp-select"
+          :label="$t('account')"
+          :items="accounts"
+          :disabled="disabled"
+          :menu-props="{ offsetY: true }"
+          attach=".inp-select"
+        ></v-select>
+        <v-text-field
+          v-model="amount"
+          class="inp"
+          :label="$t('amount')"
+          type="number"
+          clearable
+          :disabled="disabled"
+        ></v-text-field>
+        <div class="btn-group">
+          <div class="cb">
+            <v-btn
+              id="btn-cancel"
+              class="btn-cancel"
+              text
+              @click="cancel()"
+              :disabled="disabled"
+              >{{ $t("cancel") }}</v-btn
+            >
+          </div>
+          <div class="sb">
+            <v-btn
+              id="btn-save"
+              color="primary"
+              class="primary--text btn-save"
+              text
+              @click="order()"
+              :disabled="disabled"
+              >{{ $t("order") }}</v-btn
+            >
+          </div>
+          <div class="rb">
+            <v-btn
+              id="btn-reset"
+              class="btn-reset"
+              text
+              @click="reset()"
+              :disabled="resetDisabled"
+              >{{ $t("reset") }}</v-btn
+            >
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+    <!-- confirmation dialog -->
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          {{ $t("confirmation") }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t("confirm-cancel") }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="confirm('no')">
+            {{ $t("no") }}
+          </v-btn>
+          <v-btn color="green darken-1" text @click="confirm('yes')">
+            {{ $t("yes") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end confirmation dialog -->
+    <!-- alert dialog -->
+    <v-alert
+      :value="alert"
+      class="alert primary--text"
+      elevation="10"
+      :type="alertType"
+      transition="scale-transition"
+    >
+      <v-icon slot="prepend" class="alert-icon primary--text">
+        {{ alertIcon }}
+      </v-icon>
+      {{ alertText }}
+    </v-alert>
+    <!-- end alert dialog -->
+    <!-- qr code -->
+    <vrcode
+      id="qr-code"
+      :class="hidden ? 'qr-code hidden' : 'qr-code'"
+      :download="{
+        text: $t('download'),
+        filename: 'qr-code-payment.png',
+        visible: true,
+        type: 'image/png',
+        style: 'font-size: 14px; text-decoration: none; letter-spacing: 1.2px;'
+      }"
+      value="A Vue component to generate QR Code and download."
+      :options="{
+        size: qrSize,
+        level: 'Q',
+        padding: 0
+      }"
+    ></vrcode>
+    <!-- end qr code -->
   </div>
 </template>
 
@@ -56,201 +117,244 @@
 export default {
   data() {
     return {
-      user: this.$store.state.user,
+      account: "",
       accounts: this.$store.state.accounts,
-      filename: "mx-qr-code.png"
+      amount: null,
+      initAcount: null,
+      initAmount: null,
+      hidden: true,
+      disabled: false,
+      resetDisabled: false,
+      dialog: false,
+      alert: false,
+      alertType: "success",
+      alertText: this.$t("changes-saved-success"),
+      alertIcon: "mdi-information-outline",
+      qrSize: 160,
+      interval: null
     };
   },
 
+  mounted() {
+    // console.log("mounted");
+    this.$store.commit("setCurrentPage", "qr-payment");
+    this.$store.commit("enableAllMenuItems");
+    this.$store.commit("disableMenuItem", 1);
+    // save initial settings
+    this.initAccount = this.account;
+    this.initAmount = this.amount;
+    document.addEventListener("keyup", this.handleKeyUp);
+  },
+
+  destroyed() {
+    // console.log("destroyed");
+    this.$store.commit("enableMenuItem", 1);
+    document.removeEventListener("keyup", this.handleKeyUp);
+  },
+
   methods: {
-    showQRCode() {
-      // console.log("qr-payment.vue::showQRCode");
-      const qrCode = document.getElementById("qr-code");
-      qrCode.setAttribute("style", "visibility: visible");
+    handleKeyUp(e) {
+      // console.log("handleKeyUp::e.target=", e);
+      if (e.key === "Enter") {
+        this.order();
+      }
     },
 
-    hideQRCode() {
-      // console.log("qr-payment.vue::hideQRCode");
-      const qrCode = document.getElementById("qr-code");
-      qrCode.setAttribute("style", "visibility: hidden");
+    animateQR() {
+      this.qrSize = 0;
+      this.increment = 1;
+      this.interval = setInterval(this.incrementSize, 4);
     },
 
-    accountChanged() {
-      // console.log("qr-payment.vue::accountChanged");
-      this.hideQRCode();
+    incrementSize() {
+      if (this.qrSize > 150) {
+        clearInterval(this.interval);
+        this.qrSize = 160;
+      } else {
+        this.qrSize += this.increment;
+        this.increment += 1;
+      }
     },
 
-    amountChanged() {
-      // console.log("qr-payment.vue::amountChanged");
-      this.hideQRCode();
+    setAlertType(alertType) {
+      if (alertType === "success") {
+        this.alertType = "success";
+        this.alertText = this.$t("qr-payment-order-success");
+        this.alertIcon = "mdi-information-outline";
+      } else if (alertType === "warning") {
+        this.alertType = "warning";
+        this.alertText = this.$t("order-qr-payment");
+        this.alertIcon = "mdi-alert-outline";
+      } else if (alertType === "error") {
+        this.alertType = "error";
+        this.alertText = this.$t("amount-not-a-number");
+        this.alertIcon = "mdi-alert-outline";
+      }
+    },
+
+    haveSettingsChanged() {
+      // console.log("haveSettingsChanged");
+      if (this.initAccount !== this.account) return true;
+      if (this.initAmount !== this.amount) return true;
+      return false;
     },
 
     cancel() {
-      // console.log("qr-payment.vue::cancel");
-
-      // determine if qr-code is visible...
-      const qrCode = document.getElementById("qr-code");
-      const style = qrCode.getAttribute("style");
-      let isVisible;
-      if (!!style && style.indexOf("visible") >= 0) {
-        isVisible = true;
+      // console.log("cancel");
+      if (this.$store.state.wantsConfirmations && this.haveSettingsChanged()) {
+        this.dialog = true;
       } else {
-        isVisible = false;
+        this.$router.push("home");
       }
+    },
 
-      const account = document.querySelector(".select-account");
-      const amount = document.querySelector(".inp-amount");
-      if (
-        this.$store.state.confirmations &&
-        (!!account.value || !!amount.value) &&
-        !isVisible
-      ) {
-        this.$confirm({
-          message: this.$t("confirm-cancel"),
-          button: {
-            no: this.$t("no"),
-            yes: this.$t("yes")
-          },
-          callback: confirm => {
-            // console.log("confirm callback");
-            if (confirm) {
-              history.back();
-            }
-          }
-        });
-      } else {
-        history.back();
+    confirm(yesNo) {
+      // console.log("confirm::yesNo=", yesNo);
+      this.dialog = false;
+      if (yesNo === "yes") {
+        this.account = this.initAccount;
+        this.amount = this.initAmount;
+        this.$router.push("home");
       }
+    },
+
+    isAmountValid() {
+      // console.log("this.amount=", this.amount);
+      if (Number.isNaN(this.amount)) return false;
+      if (this.amount < 0) return false;
+      if (this.amount.indexOf("e") >= 0) return false;
+      return true;
+    },
+
+    hasAccountAndAmount() {
+      if (this.account && this.amount) return true;
+      return false;
     },
 
     order() {
-      // console.log("qr-payment.vue::order");
-      const account = document.querySelector(".select-account");
-      const amount = document.querySelector(".inp-amount");
-      if (!account.value || !amount.value) {
-        this.$notify({
-          type: "warn",
-          title: this.$t("attention"),
-          text: this.$t("order-qr-payment"),
-          duration: 3000
-        });
+      // console.log("order");
+      // console.log("this.account=", this.account);
+      // console.log("this.amount=", this.amount);
+      if (!this.hasAccountAndAmount()) {
+        this.setAlertType("warning");
+        this.alert = true;
+        setTimeout(this.closeAlertAndStay, 3000);
       } else {
-        this.showQRCode();
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          text: this.$t("qr-payment-order-success"),
-          duration: 2000
-        });
+        if (!this.isAmountValid()) {
+          this.setAlertType("error");
+          this.alert = true;
+          setTimeout(this.closeAlertAndStay, 3000);
+        } else {
+          this.disabled = true;
+          this.resetDisabled = true;
+          if (this.$store.state.wantsNotifications) {
+            this.setAlertType("success");
+            this.alert = true;
+            setTimeout(this.showQRCode, 1000);
+            setTimeout(this.closeAlertAndAllowReset, 2000);
+          } else {
+            this.showQRCode();
+            this.closeAlertAndAllowReset();
+          }
+        }
       }
     },
 
+    showQRCode() {
+      this.hidden = false;
+      this.animateQR();
+    },
+
+    closeAlertAndStay() {
+      // console.log("closeAlertAndStay");
+      this.alert = false;
+      this.disabled = false;
+      this.resetDisabled = false;
+    },
+
+    closeAlertAndAllowReset() {
+      // console.log("closeAlertAndAllowReset");
+      this.alert = false;
+      // remove the following line if you want to leave the inputs
+      // disabled when the qr code is shown...
+      this.disabled = false;
+      this.resetDisabled = false;
+    },
+
     reset() {
-      // console.log("qr-payment.vue::reset");
-      const account = document.querySelector(".select-account");
-      const amount = document.querySelector(".inp-amount");
-      account.value = "";
-      amount.value = "";
-      this.hideQRCode();
-      if (this.$store.state.notifications) {
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          text: this.$t("mask-reset-success")
-        });
-      }
+      // console.log("reset");
+      // console.log("this.initAmount=", this.initAmount);
+      // console.log("this.amount=", this.amount);
+      this.account = this.initAccount;
+      this.amount = this.initAmount;
+      this.hidden = true;
+      this.disabled = false;
     }
   }
 };
 </script>
 
 <style scoped>
-#qr-code {
-  visibility: hidden;
-}
-
-.container {
-  z-index: 1;
-}
-
-.nav {
-  z-index: 3;
-}
-
 .content {
-  z-index: 2;
-  margin-top: 20px;
-  margin-left: 10%;
-  margin-bottom: 20px;
-  width: 80%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+.vcard {
+  width: 100%;
+}
+.inp {
+  width: 100%;
+}
+.inp-select {
+  margin-top: 0px;
+}
+.alert-icon {
+  padding: 0 1rem 0 0;
+}
+.alert {
+  position: absolute;
+  width: 290px;
+  top: 40px;
+  left: 50%;
+  margin: 0 0 0 -145px;
+}
+.qr-code.hidden {
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s;
+}
+.qr-code:not(.hidden) {
+  text-align: center;
+  transition: opacity 2s;
+  opacity: 1;
+  visibility: visible;
+}
+#btn-cancel,
+#btn-save,
+#btn-reset {
+  height: 30px;
+}
+.btn-cancel,
+.btn-reset {
+  color: #666666;
+}
+.btn-group {
   display: grid;
   grid-template:
-    "bp-key bp-key" 10%
-    "account input-account" 10%
-    "amount input-amount" 10%
-    "cb sb" 15%
-    "rb rb" 15%
-    "qr-code qr-code" 40%;
-  grid-template-columns: 50% 50%;
-  font-size: 20px;
+    "cb sb" 50%
+    "rb ee" 50%;
 }
-
-.bp-key {
-  grid-area: bp-key;
-  text-align: left;
-}
-
-.account {
-  grid-area: account;
-  text-align: left;
-}
-
-.input-account {
-  grid-area: input-account;
-  text-align: left;
-  margin-left: -30%;
-}
-
-.select-account {
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-}
-
-.amount {
-  grid-area: amount;
-  text-align: left;
-}
-
-.input-amount {
-  grid-area: input-amount;
-  text-align: left;
-  margin-left: -30%;
-}
-
-.inp-amount {
-  width: 100%;
-  font-size: 16px;
-}
-
 .cb {
   grid-area: cb;
-  padding-top: 30px;
-  padding-right: 10px;
 }
-
 .sb {
   grid-area: sb;
-  padding-top: 30px;
-  padding-left: 10px;
 }
-
 .rb {
   grid-area: rb;
-  padding-bottom: 20px;
-}
-
-.qr-code {
-  grid-area: qr-code;
 }
 </style>

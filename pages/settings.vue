@@ -1,148 +1,104 @@
 <template>
-  <div class="container">
-    <div class="nav">
-      <Nav :title="$t('settings')" backlink="main" />
-    </div>
-    <div class="content">
-      <div class="bp-key">User: {{ user }}</div>
-      <div class="lang">
-        {{ $t("select-lang") }}:
-        <div class="div-radio">
-          <input
-            v-if="locale === 'de'"
-            type="radio"
-            id="de"
-            class="radio"
-            name="lang"
-            value="de"
-            checked
-          />
-          <input
-            v-else
-            type="radio"
-            id="de"
-            class="radio"
-            name="lang"
-            value="de"
-          />
-          <label for="de" class="radio-label">Deutsch</label>
-          <br />
-          <input
-            v-if="locale === 'en'"
-            type="radio"
-            id="en"
-            class="radio"
-            name="lang"
-            value="en"
-            checked
-          />
-          <input
-            v-else
-            type="radio"
-            id="en"
-            class="radio"
-            name="lang"
-            value="en"
-          />
-          <label for="en" class="radio-label">English</label>
-          <br />
-          <input
-            v-if="locale === 'fr'"
-            type="radio"
-            id="fr"
-            class="radio"
-            name="lang"
-            value="fr"
-            checked
-          />
-          <input
-            v-else
-            type="radio"
-            id="fr"
-            class="radio"
-            name="lang"
-            value="fr"
-          />
-          <label for="fr" class="radio-label">Français</label>
-          <br />
-          <input
-            v-if="locale === 'it'"
-            type="radio"
-            id="it"
-            class="radio"
-            name="lang"
-            value="it"
-            checked
-          />
-          <input
-            v-else
-            type="radio"
-            id="it"
-            class="radio"
-            name="lang"
-            value="it"
-          />
-          <label for="it" class="radio-label">Italiano</label>
+  <div class="content">
+    <mx-overline>{{ $t("settings") }}</mx-overline>
+    <mx-caption>
+      {{ $t("select-your-preferences") }}
+    </mx-caption>
+
+    <v-card class="mt-n1" elevation="2">
+      <v-card-text>
+        {{ $t("select-lang") }}
+        <v-select
+          v-model="locale"
+          :items="locales"
+          item-text="locale"
+          item-value="abbr"
+          return-object
+          single-line
+          @change="localeChanged(locale.abbr)"
+          :disabled="disabled"
+        ></v-select>
+        <v-checkbox
+          v-model="wantsConfirmations"
+          :label="$t('show-confirmations')"
+          :disabled="disabled"
+        ></v-checkbox>
+        <v-checkbox
+          v-model="wantsNotifications"
+          :label="$t('show-notifications')"
+          :disabled="disabled"
+        ></v-checkbox>
+        <div class="btn-group">
+          <div class="cb">
+            <v-btn
+              id="btn-cancel"
+              class="btn-cancel"
+              text
+              @click="cancel()"
+              :disabled="disabled"
+              >{{ $t("cancel") }}</v-btn
+            >
+          </div>
+          <div class="sb">
+            <v-btn
+              id="btn-save"
+              color="primary"
+              class="primary--text btn-save"
+              text
+              @click="save()"
+              :disabled="disabled"
+              >{{ $t("save") }}</v-btn
+            >
+          </div>
+          <div class="rb">
+            <v-btn
+              id="btn-reset"
+              class="btn-reset"
+              text
+              @click="reset()"
+              :disabled="disabled"
+              >{{ $t("reset") }}</v-btn
+            >
+          </div>
         </div>
-      </div>
-      <div class="conf">
-        <input
-          v-if="confirmations"
-          id="show-conf"
-          type="checkbox"
-          value="show-conf"
-          name="show-conf"
-          checked
-        />
-        <input
-          v-else
-          id="show-conf"
-          type="checkbox"
-          value="show-conf"
-          name="show-conf"
-        />
-        <label for="show-conf" class="conf-notif">
-          {{ $t("show-confirmations") }}
-        </label>
-      </div>
-      <div class="notif">
-        <input
-          v-if="notifications"
-          id="show-notif"
-          type="checkbox"
-          value="show-notif"
-          name="show-notif"
-          checked
-        />
-        <input
-          v-else
-          id="show-notif"
-          type="checkbox"
-          value="show-notif"
-          name="show-notif"
-        />
-        <label for="show-notif" class="conf-notif">
-          {{ $t("show-notifications") }}
-        </label>
-      </div>
-      <div class="cb">
-        <button class="btn-normal" @click="cancel">
-          {{ $t("cancel") }}
-        </button>
-      </div>
-      <div class="sb">
-        <button class="btn-default" @click="save">
-          {{ $t("save") }}
-        </button>
-      </div>
-      <div class="logo">
-        <Logo />
-        <h1 class="title">
-          Banklets
-        </h1>
-      </div>
-    </div>
-    <notifications position="top center" />
+      </v-card-text>
+    </v-card>
+    <!-- confirmation dialog -->
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          {{ $t("confirmation") }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t("confirm-cancel") }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="confirm('no')">
+            {{ $t("no") }}
+          </v-btn>
+          <v-btn color="green darken-1" text @click="confirm('yes')">
+            {{ $t("yes") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end confirmation dialog -->
+    <!-- alert dialog -->
+    <v-alert
+      :value="alert"
+      class="alert primary--text"
+      elevation="10"
+      :type="alertType"
+      transition="scale-transition"
+    >
+      <v-icon slot="prepend" class="alert-icon primary--text">
+        {{ alertIcon }}
+      </v-icon>
+      {{ alertText }}
+    </v-alert>
+    <!-- end alert dialog -->
   </div>
 </template>
 
@@ -150,168 +106,181 @@
 export default {
   data() {
     return {
-      user: this.$store.state.user,
       locale: this.$store.state.locale,
-      confirmations: this.$store.state.confirmations,
-      notifications: this.$store.state.notifications
+      locales: this.$store.state.locales,
+      wantsConfirmations: this.$store.state.wantsConfirmations,
+      wantsNotifications: this.$store.state.wantsNotifications,
+      initLocale: null,
+      initWantsConfirmations: null,
+      initWantsNotifications: null,
+      disabled: false,
+      dialog: false,
+      alert: false,
+      alertType: "success",
+      alertText: this.$t("changes-saved-success"),
+      alertIcon: "mdi-information-outline"
     };
   },
 
+  mounted() {
+    // console.log("mounted");
+    this.$store.commit("setCurrentPage", "settings");
+    this.$store.commit("enableAllMenuItems");
+    this.$store.commit("disableMenuItem", 4);
+
+    // save initial settings
+    this.initLocale = this.locale;
+    this.initWantsConfirmations = this.wantsConfirmations;
+    this.initWantsNotifications = this.wantsNotifications;
+  },
+
+  destroyed() {
+    // console.log("destroyed");
+    this.$store.commit("enableMenuItem", 4);
+  },
+
   methods: {
-    hasInputChanged() {
-      if (!document.getElementById(this.locale).checked) return true;
-      if (document.getElementById("show-conf").checked !== this.confirmations)
-        return true;
-      if (document.getElementById("show-notif").checked !== this.notifications)
-        return true;
+    setAlertType(alertType) {
+      if (alertType === "success") {
+        this.alertType = "success";
+        this.alertText = this.$t("changes-saved-success");
+        this.alertIcon = "mdi-information-outline";
+      } else if (alertType === "warning") {
+        this.alertType = "warning";
+        this.alertText = this.$t("no-changes-no-save");
+        this.alertIcon = "mdi-alert-outline";
+      }
+    },
+
+    haveSettingsChanged() {
+      // console.log("haveSettingsChanged");
+      if (this.initLocale.abbr !== this.locale.abbr) return true;
+      if (this.initWantsConfirmations !== this.wantsConfirmations) return true;
+      if (this.initWantsNotifications !== this.wantsNotifications) return true;
       return false;
     },
 
+    localeChanged(localeAbbr) {
+      // console.log("localeChanged::localeAbbr=", localeAbbr);
+      this.$i18n.locale = localeAbbr;
+      this.$store.commit(
+        "setLocale",
+        this.$store.state.locales.find(el => el.abbr === localeAbbr)
+      );
+      this.$store.commit("translateMenuItems");
+    },
+
     cancel() {
-      // console.log("settings.vue::cancel");
-      if (this.$store.state.confirmations && this.hasInputChanged()) {
-        this.$confirm({
-          message: this.$t("confirm-cancel"),
-          button: {
-            no: this.$t("no"),
-            yes: this.$t("yes")
-          },
-          callback: confirm => {
-            if (confirm) {
-              history.back();
-            }
-          }
-        });
+      // console.log("cancel");
+      if (this.$store.state.wantsConfirmations && this.haveSettingsChanged()) {
+        this.dialog = true;
       } else {
-        history.back();
+        this.confirm("yes");
+      }
+    },
+
+    confirm(yesNo) {
+      // console.log("confirm::yesNo=", yesNo);
+      this.dialog = false;
+      if (yesNo === "yes") {
+        this.localeChanged(this.initLocale.abbr);
+        this.wantsConfirmations = this.initWantsConfirmations;
+        this.wantsNotifications = this.initWantsNotifications;
+        this.$router.push("home");
       }
     },
 
     save() {
-      // console.log("settings.vue::save");
-      if (this.hasInputChanged()) {
-        const en = document.getElementById("en");
-        const fr = document.getElementById("fr");
-        const it = document.getElementById("it");
-        const conf = document.getElementById("show-conf");
-        const notif = document.getElementById("show-notif");
-        let lang = "de"; // default
-        if (en.checked) lang = "en";
-        if (fr.checked) lang = "fr";
-        if (it.checked) lang = "it";
-        this.$store.commit("setLocale", lang);
-        this.$i18n.locale = lang;
-        this.$store.commit("setConfirmations", conf.checked);
-        this.$store.commit("setNotifications", notif.checked);
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          text: this.$t("settings-stored-success"),
-          duration: 2000
-        });
-        setTimeout(() => {
-          this.$router.push("main");
-        }, 2000);
+      // console.log("save");
+      if (this.haveSettingsChanged()) {
+        this.disabled = true;
+        this.$store.commit("setWantsConfirmations", this.wantsConfirmations);
+        this.$store.commit("setWantsNotifications", this.wantsNotifications);
+        if (this.$store.state.wantsNotifications) {
+          this.setAlertType("success");
+          this.alert = true;
+          setTimeout(this.closeAlertAndLeave, 2000);
+        } else {
+          this.$router.push("home");
+        }
       } else {
-        this.$notify({
-          title: this.$t("info"),
-          text: this.$t("no-changes-no-save"),
-          duration: 2000
-        });
+        if (this.$store.state.wantsNotifications) {
+          this.setAlertType("warning");
+          this.alert = true;
+          setTimeout(this.closeAlertAndStay, 2000);
+        } else {
+          this.$router.push("home");
+        }
       }
+    },
+
+    closeAlertAndLeave() {
+      // console.log("closeAlertAndLeave");
+      this.alert = false;
+      this.$router.push("home");
+    },
+
+    closeAlertAndStay() {
+      // console.log("closeAlertAndStay");
+      this.alert = false;
+    },
+
+    reset() {
+      this.locale = this.initLocale;
+      this.localeChanged(this.locale.abbr);
+      this.wantsConfirmations = this.initWantsConfirmations;
+      this.wantsNotifications = this.initWantsNotifications;
     }
   }
 };
 </script>
 
 <style scoped>
-#qr-code {
-  visibility: hidden;
-}
-
-.container {
-  z-index: 1;
-}
-
-.nav {
-  z-index: 3;
-}
-
 .content {
-  z-index: 2;
-  margin-top: 20px;
-  margin-left: 10%;
-  margin-bottom: 20px;
-  width: 80%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+.inp {
+  width: 100%;
+}
+.inp-select {
+  margin-top: 0px;
+}
+.alert-icon {
+  padding: 0 1rem 0 0;
+}
+.alert {
+  position: absolute;
+  width: 290px;
+  top: 40px;
+  left: 50%;
+  margin: 0 0 0 -145px;
+}
+#btn-cancel,
+#btn-save,
+#btn-reset {
+  height: 30px;
+}
+.btn-cancel,
+.btn-reset {
+  color: #666666;
+}
+.btn-group {
   display: grid;
   grid-template:
-    "bp-key bp-key" 8%
-    "lang lang" 36%
-    "conf conf" 8%
-    "notif notif" 8%
-    "cb sb" 14%
-    "logo logo" 26%;
-  grid-template-columns: 50% 50%;
-  font-size: 20px;
-}
-
-.bp-key {
-  grid-area: bp-key;
-  text-align: left;
-}
-
-.lang {
-  grid-area: lang;
-  text-align: left;
-}
-
-.div-radio {
-  border: 1px solid var(--secondary-color);
-  border-radius: 10px;
-  margin-top: 5px;
-  padding-left: 20px;
-}
-
-.radio {
-  margin-top: -8px;
-  vertical-align: middle;
-}
-
-.radio-label {
-  font-size: 25px;
-  line-height: 1.3;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-.conf {
-  grid-area: conf;
-  text-align: left;
-  padding-top: 0px;
-}
-
-.notif {
-  grid-area: notif;
-  text-align: left;
-}
-
-.conf-notif {
-  font-size: 20px;
+    "cb sb" 50%
+    "rb ee" 50%;
 }
 .cb {
   grid-area: cb;
-  padding-top: 0px;
-  padding-right: 10px;
 }
-
 .sb {
   grid-area: sb;
-  padding-top: 0px;
-  padding-left: 10px;
 }
-
-.logo {
-  grid-area: logo;
-  padding-top: 20px;
+.rb {
+  grid-area: rb;
 }
 </style>

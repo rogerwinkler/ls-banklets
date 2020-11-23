@@ -1,52 +1,72 @@
 <template>
-  <div class="container">
-    <div class="content">
-      <div class="div-logo">
-        <Logo />
-        <h1 class="title">
-          Banklets
-        </h1>
-      </div>
-      <div class="div-lang">{{ $t("select-lang") }}:</div>
-      <div class="div-input-lang">
-        <select id="select-lang" name="lang" @change="changeLang">
-          <option id="de" value="de">Deutsch</option>
-          <option id="en" value="en">English</option>
-          <option id="fr" value="fr">Français</option>
-          <option id="it" value="it">Italiano</option>
-        </select>
-      </div>
-      <div class="div-user">
-        <label class="label-username">{{ $t("username") }}:</label>
-      </div>
-      <div class="div-input-user">
-        <input id="input-username" type="Text" />
-        <button class="btn-clear-input" @click="clearUsername">
-          <img
-            class="img-clear-input"
-            src="img/270-cancel-circle-blue.svg"
-            alt="Clear input field"
-          />
-        </button>
-      </div>
-      <div class="div-pwd">
-        <label class="label-div-pwd">{{ $t("password") }}:</label>
-      </div>
-      <div class="div-input-pwd">
-        <input id="input-pwd" type="Password" />
-        <button class="btn-clear-input" @click="clearPwd">
-          <img
-            class="img-clear-input"
-            src="img/270-cancel-circle-blue.svg"
-            alt="Clear input field"
-          />
-        </button>
-      </div>
-      <div class="div-login">
-        <button class="cta full-screen" @click="login">Login</button>
-      </div>
-    </div>
-    <notifications position="top center" />
+  <div class="content">
+    <v-card width="400" class="mx-auto mt-5" elevation="6">
+      <v-card-text>
+        {{ $t("select-lang") }}
+        <v-select
+          v-model="locale"
+          :items="locales"
+          item-text="locale"
+          item-value="abbr"
+          return-object
+          single-line
+          @change="localeChanged(locale.abbr)"
+        ></v-select>
+      </v-card-text>
+      <v-card-title>
+        <h1 class="display-1">Login</h1>
+      </v-card-title>
+      <v-card-text>
+        <v-text-field
+          v-model="username"
+          class="username"
+          :label="$t('username')"
+          required
+          prepend-icon="mdi-account-circle"
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          class="password"
+          :type="showPassword ? 'text' : 'password'"
+          :label="$t('password')"
+          required
+          prepend-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions class="btn-group">
+        <div class="rb">
+          <v-btn
+            color="info"
+            disabled
+            class="primary--text btn-register"
+            elevation="6"
+            >{{ $t("register") }}</v-btn
+          >
+        </div>
+        <div class="lb">
+          <v-btn
+            color="primary"
+            class="info--text btn-login"
+            @click="login"
+            elevation="6"
+            >{{ $t("login") }}</v-btn
+          >
+        </div>
+      </v-card-actions>
+    </v-card>
+    <v-alert
+      class="alert"
+      :value="alert"
+      elevation="10"
+      icon="mdi-alert"
+      type="error"
+      transition="scale-transition"
+    >
+      {{ $t("enter-username-pwd") }}
+    </v-alert>
   </div>
 </template>
 
@@ -54,193 +74,83 @@
 export default {
   data() {
     return {
-      lang: this.$store.state.locale
+      username: "test",
+      password: "test",
+      locale: this.$store.state.locale,
+      locales: this.$store.state.locales,
+      showPassword: false,
+      alert: false
     };
   },
 
-  // props: ["slug", "attributes", "target"],
+  // computed: {
+  //   locale() {
+  //     return this.$store.state.locale;
+  //   }
+  // },
 
   mounted() {
-    // console.log("index.vue::mounted");
-    document.addEventListener("keypress", this.handleKeyPressEvent);
-    const lang = document.getElementById("select-lang");
-    lang.value = this.lang;
-  },
-
-  destroyed() {
-    // console.log("index.vue::destroyed");
-    document.removeEventListener("keypress", this.handleKeyPressEvent);
+    // console.log("mounted");
+    this.$store.commit("setCurrentPage", "login");
+    this.$store.commit("disableAllMenuItems");
+    this.$store.commit("translateMenuItems");
+    this.localeChanged(this.$store.state.locale.abbr);
   },
 
   methods: {
-    changeLang() {
-      // console.log("index.vue::changeLang");
-      const lang = document.getElementById("select-lang");
-      this.$store.commit("setLocale", lang.value);
-      this.$i18n.locale = lang.value;
-    },
-
-    clearUsername() {
-      // console.log("index.vue::clearUsername");
-      const username = document.getElementById("input-username");
-      username.value = "";
-    },
-
-    clearPwd() {
-      // console.log("index.vue::clearPassword");
-      const pwd = document.getElementById("input-pwd");
-      pwd.value = "";
+    localeChanged(localeAbbr) {
+      // console.log("localeChanged::localeAbbr=", localeAbbr);
+      this.$i18n.locale = localeAbbr;
+      this.$store.commit(
+        "setLocale",
+        this.$store.state.locales.find(el => el.abbr === localeAbbr)
+      );
+      this.$store.commit("translateMenuItems");
     },
 
     login() {
       // console.log("login");
-      const username = document.getElementById("input-username");
-      const pwd = document.getElementById("input-pwd");
-      if (
-        username &&
-        username.value === "test" &&
-        pwd &&
-        pwd.value === "test"
-      ) {
+      if (this.username === "test" && this.password === "test") {
         this.$store.commit("setUser", "test");
-        this.$router.push("/main");
+        this.$router.push("home");
       } else {
-        this.$notify({
-          type: "error",
-          title: this.$t("error"),
-          text: this.$t("enter-username-pwd"),
-          duration: 4000
-        });
+        this.alert = true;
+        setTimeout(this.closeAlert, 4000);
       }
     },
 
-    handleKeyPressEvent(e) {
-      // console.log("index.vue::handleKeyPressEvent");
-      // console.log(e.key);
-      // console.log(document.activeElement.tagName);
-      if (
-        e &&
-        e.key === "Enter" &&
-        document.activeElement.tagName === "INPUT"
-      ) {
-        this.login();
-      }
+    closeAlert() {
+      // console.log("closeAlert");
+      this.alert = false;
     }
   }
 };
 </script>
 
 <style scoped>
-.container {
-  /* margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center; */
-}
-
 .content {
-  display: grid;
-  grid-template:
-    "div-logo" 26%
-    "div-lang" 8%
-    "div-input-lang" 8%
-    "div-user" 8%
-    " div-input-user" 8%
-    "div-pwd" 8%
-    "div-input-pwd" 8%
-    "div-login" 26%;
-  grid-template-columns: 80%;
+  position: relative;
 }
-
-.div-logo {
-  grid-area: div-logo;
+.alert {
+  position: absolute;
+  width: 290px;
+  top: 0;
+  left: 50%;
+  margin: 0 0 0 -145px;
 }
-
-.div-lang {
-  gird-area: div-lang;
-  text-align: left;
-  margin-top: 20px;
-}
-
-.div-input-lang {
-  grid-area: div-input-lang;
-  text-align: left;
-  display: flex;
-}
-
-.div-user {
-  grid-area: div-user;
-  text-align: left;
-  margin-top: 20px;
-}
-
-.div-input-user {
-  grid-area: div-input-user;
-  text-align: left;
-  display: flex;
-}
-
-.div-pwd {
-  grid-area: div-pwd;
-  text-align: left;
-  margin-top: 20px;
-}
-
-.div-input-pwd {
-  grid-area: div-input-pwd;
-  text-align: left;
-  display: flex;
-}
-
-#select-lang,
-#input-username,
-#input-pwd {
+.btn-register,
+.btn-login {
   width: 80%;
-  height: 40px;
-  margin-top: 6px;
-  font-size: 20px;
-  color: var(--txt-color);
-  border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  background-color: white;
+  margin: 10%;
 }
-
-.div-login {
-  grid-area: div-login;
+.btn-group {
+  display: grid;
+  grid-template: "rb lb" 100%;
 }
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 400;
-  font-size: 70px;
-  color: var(--secondary-color);
-  letter-spacing: 1px;
+.rb {
+  grid-area: rb;
 }
-
-.btn-clear-input {
-  background-color: transparent;
-  border: none;
-  font-size: 20px;
-}
-
-.img-clear-input {
-  width: 25px;
-  margin-top: 10px;
-}
-
-.cta {
-  margin-top: 30px;
-  padding: 5px 10px 5px 10px;
-  background-color: var(--tertiary-color);
-  color: var(--primary-color);
-  font-weight: 800;
-  font-size: 50px;
-  border: none;
-  /* border: 4px solid var(--mx-dark-blue); */
-  border-radius: 20px;
+.lb {
+  grid-area: lb;
 }
 </style>

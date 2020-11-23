@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import vrcode from '@ispa.io/vrcode'
+import Vue from "vue";
+import vrcode from "@ispa.io/vrcode";
 
 Vue.use(vrcode);
-Vue.component('vrcode', vrcode);
+Vue.component("vrcode", vrcode);

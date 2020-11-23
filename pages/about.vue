@@ -1,74 +1,95 @@
 <template>
-  <div class="container">
-    <div class="nav">
-      <Nav :title="$t('about-mx-banklets')" backlink="main" />
+  <div class="content">
+    <mx-overline>{{ $t("about") }}</mx-overline>
+    <div class="logo">
+      <Logo />
+      <h1 class="title">
+        Banklets
+      </h1>
     </div>
-    <div class="content">
-      <div class="logo">
-        <Logo />
-        <h1 class="title">
-          Banklets
-        </h1>
-      </div>
-      <hr />
-      <div class="version-date">
-        <p>{{ $t("version") }}: 1.0.1 | Build: 88</p>
-        <p>{{ $t("date") }}: 2020-10-13</p>
-      </div>
-      <div class="copyright">
-        &copy; 2020 Monex AG, Balzers {{ $t("liechtenstein") }}
-      </div>
-      <hr />
-      <div class="data-protection-header">
-        {{ $t("data-protection-header") }}
-      </div>
-      <div class="data-protection-text">
-        {{ $t("data-protection-text") }}
-      </div>
+    <hr class="hr" />
+    <div class="version-date-copyright">
+      <span>{{ $t("version") }}: 1.0.1 | Build: 27</span>
+      <br />
+      <span>{{ $t("date") }}: 2020-11-17</span>
+      <br />
+      <span>&copy;2020 Monex AG, Balzers Liechtenstein</span>
+    </div>
+    <hr class="hr" />
+    <div class="data-protection-header">
+      {{ $t("data-protection-header") }}
+    </div>
+    <div class="data-protection-text">
+      {{ $t("data-protection-text") }}
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+
+  mounted() {
+    // console.log("mounted");
+    this.$store.commit("setCurrentPage", "about");
+    this.$store.commit("enableAllMenuItems");
+    this.$store.commit("disableMenuItem", 6);
+  },
+
+  destroyed() {
+    // console.log("destroyed");
+    this.$store.commit("enableMenuItem", 6);
+  }
+};
 </script>
 
 <style scoped>
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .logo {
-  margin-top: 30px;
-  margin-bottom: 25px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
-
-.version-date {
-  margin-top: 25px;
+.title {
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: block;
+  font-weight: 400;
+  font-size: 68px !important;
+  /* color: #35495e; */
+  /* color: var(--bg-color-tertiary); */
+  color: #aaa;
+  letter-spacing: 1px;
+  margin-left: -4px;
+  margin-top: 16px;
 }
-
-.version-date p {
-  margin-top: 20px;
-  /* margin-bottom: 10px; */
+.version-date-copyright {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  line-height: 0.8rem;
 }
-
-.copyright {
-  margin-top: 20px;
-  margin-bottom: 25px;
+.hr {
+  width: 90%;
+  margin: 20px 0 16px 0;
 }
-
 .data-protection-header {
-  margin-top: 25px;
   text-align: left;
   font-weight: 800;
-  width: 80%;
-  margin-left: 10%;
+  width: 90%;
+  margin-left: 5%;
+  line-height: 1rem;
+  margin-bottom: 4px;
 }
-
 .data-protection-text {
   text-align: left;
-  width: 80%;
-  margin-left: 10%;
-}
-
-hr {
-  width: 80%;
-  margin-left: 10%;
+  width: 90%;
+  margin-left: 5%;
+  line-height: 1.2rem;
 }
 </style>

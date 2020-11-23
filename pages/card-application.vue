@@ -1,57 +1,109 @@
 <template>
-  <div class="container">
-    <div class="nav">
-      <Nav :title="$t('card-application')" backlink="cards" />
-    </div>
-    <div class="content">
-      <div class="bp-key">User: {{ user }}</div>
-      <div class="account">{{ $t("account") }}:</div>
-      <div class="input-account">
-        <select class="select-account" name="account">
-          <option v-for="account in accounts" :key="account" :value="account">{{
-            account
-          }}</option>
-        </select>
-      </div>
-      <div class="card">{{ $t("card") }}:</div>
-      <div class="input-card">
-        <select class="select-card" name="card">
-          <option v-for="ct in cardTypes" :key="ct" :value="ct">{{
-            ct
-          }}</option>
-        </select>
-      </div>
-      <div class="limit">{{ $t("limit") }}:</div>
-      <div class="input-limit">
-        <select class="select-limit" name="limit">
-          <option v-for="limit in limits" :key="limit" :value="limit">{{
-            limit
-          }}</option>
-        </select>
-      </div>
-      <div class="cb">
-        <button class="btn-normal" @click="cancel">
-          {{ $t("cancel") }}
-        </button>
-      </div>
-      <div class="sb">
-        <button class="btn-default" @click="send">
-          {{ $t("send") }}
-        </button>
-      </div>
-      <div class="rb">
-        <button class="btn-normal" @click="reset">
-          {{ $t("reset") }}
-        </button>
-      </div>
-      <div class="logo">
-        <Logo />
-        <h1 class="title">
-          Banklets
-        </h1>
-      </div>
-    </div>
-    <notifications position="top center" />
+  <div class="content">
+    <mx-overline>{{ $t("card-application") }}</mx-overline>
+    <mx-caption>
+      {{ $t("please-fill-in-the-form-") }}
+    </mx-caption>
+    <v-card class="mt-n1 vcard" elevation="2">
+      <v-card-text>
+        <v-select
+          v-model="account"
+          class="sel-account"
+          :label="$t('account')"
+          :items="accounts"
+          :disabled="disabled"
+          :menu-props="{ offsetY: true }"
+          attach=".sel-account"
+        ></v-select>
+        <v-select
+          v-model="cardType"
+          class="sel-card"
+          :label="$t('card')"
+          :items="cardTypes"
+          :disabled="disabled"
+          :menu-props="{ offsetY: true, maxHeight: 200 }"
+          attach=".sel-card"
+        ></v-select>
+        <v-select
+          v-model="limit"
+          class="sel-limit"
+          :label="$t('limit')"
+          :items="limits"
+          :disabled="disabled"
+          :menu-props="{ offsetY: true, maxHeight: 200 }"
+          attach=".sel-limit"
+        ></v-select>
+        <div class="btn-group">
+          <div class="cb">
+            <v-btn
+              id="btn-cancel"
+              class="btn-cancel"
+              text
+              @click="cancel()"
+              :disabled="disabled"
+              >{{ $t("cancel") }}</v-btn
+            >
+          </div>
+          <div class="sb">
+            <v-btn
+              id="btn-save"
+              color="primary"
+              class="primary--text btn-save"
+              text
+              @click="send()"
+              :disabled="disabled"
+              >{{ $t("send") }}</v-btn
+            >
+          </div>
+          <div class="rb">
+            <v-btn
+              id="btn-reset"
+              class="btn-reset"
+              text
+              @click="reset()"
+              :disabled="disabled"
+              >{{ $t("reset") }}</v-btn
+            >
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+    <!-- confirmation dialog -->
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          {{ $t("confirmation") }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t("confirm-cancel") }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="confirm('no')">
+            {{ $t("no") }}
+          </v-btn>
+          <v-btn color="green darken-1" text @click="confirm('yes')">
+            {{ $t("yes") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end confirmation dialog -->
+    <!-- alert dialog -->
+    <v-alert
+      :value="alert"
+      class="alert primary--text"
+      elevation="10"
+      :type="alertType"
+      transition="scale-transition"
+    >
+      <v-icon slot="prepend" class="alert-icon primary--text">
+        {{ alertIcon }}
+      </v-icon>
+      {{ alertText }}
+    </v-alert>
+    <!-- end alert dialog -->
   </div>
 </template>
 
@@ -59,216 +111,171 @@
 export default {
   data() {
     return {
-      user: this.$store.state.user,
+      account: "",
       accounts: this.$store.state.accounts,
+      cardType: "",
       cardTypes: this.$store.state.cardTypes,
-      limits: this.$store.state.limits
+      limit: "",
+      limits: this.$store.state.limits,
+      initAcount: null,
+      initCardType: null,
+      initLimit: null,
+      disabled: false,
+      dialog: false,
+      alert: false,
+      alertType: "success",
+      alertText: this.$t("changes-saved-success"),
+      alertIcon: "mdi-information-outline"
     };
   },
 
+  mounted() {
+    // console.log("mounted");
+    this.$store.commit("setCurrentPage", "card-application");
+    this.$store.commit("enableAllMenuItems");
+    this.$store.commit("disableMenuItem", 3);
+    // save initial settings
+    this.initAccount = this.account;
+    this.initCardType = this.cardType;
+    this.initLimit = this.limit;
+  },
+
+  destroyed() {
+    // console.log("destroyed");
+    this.$store.commit("enableMenuItem", 3);
+  },
+
   methods: {
-    hasApplicationChanged() {
-      const selectAccount = document.querySelector(".select-account");
-      const selectCard = document.querySelector(".select-card");
-      const selectLimit = document.querySelector(".select-limit");
-      if (
-        selectAccount.value === "" &&
-        selectCard.value === "" &&
-        selectLimit.value === ""
-      ) {
-        return false;
+    setAlertType(alertType) {
+      if (alertType === "success") {
+        this.alertType = "success";
+        this.alertText = this.$t("application-sent-success");
+        this.alertIcon = "mdi-information-outline";
+      } else if (alertType === "warning") {
+        this.alertType = "warning";
+        this.alertText = this.$t("all-three-inputs");
+        this.alertIcon = "mdi-alert-outline";
       }
-      return true;
     },
 
-    clearSelects() {
-      const selectAccount = document.querySelector(".select-account");
-      const selectCard = document.querySelector(".select-card");
-      const selectLimit = document.querySelector(".select-limit");
-      selectAccount.value = "";
-      selectCard.value = "";
-      selectLimit.value = "";
-    },
-
-    allSelectsFilled() {
-      const selectAccount = document.querySelector(".select-account");
-      const selectCard = document.querySelector(".select-card");
-      const selectLimit = document.querySelector(".select-limit");
-      if (selectAccount.value === "") return false;
-      if (selectCard.value === "") return false;
-      if (selectLimit.value === "") return false;
-      return true;
+    haveSettingsChanged() {
+      // console.log("hinitCardTypeaveSettingsChanged");
+      if (this.initAccount !== this.account) return true;
+      if (this.initCardType !== this.cardType) return true;
+      if (this.initLimit !== this.limit) return true;
+      return false;
     },
 
     cancel() {
-      // console.log("card-application::cancel");
-      if (this.$store.state.confirmations && this.hasApplicationChanged()) {
-        this.$confirm({
-          message: this.$t("confirm-cancel"),
-          button: {
-            no: this.$t("no"),
-            yes: this.$t("yes")
-          },
-          callback: confirm => {
-            // console.log("confirm callback");
-            if (confirm) {
-              history.back();
-            }
-          }
-        });
+      // console.log("cancel");
+      if (this.$store.state.wantsConfirmations && this.haveSettingsChanged()) {
+        this.dialog = true;
       } else {
-        history.back();
+        this.$router.push("home");
       }
+    },
+
+    confirm(yesNo) {
+      // console.log("confirm::yesNo=", yesNo);
+      this.dialog = false;
+      if (yesNo === "yes") {
+        this.account = this.initAccount;
+        this.$router.push("home");
+      }
+    },
+
+    isValidInput() {
+      if (this.account && this.cardType && this.limit) return true;
+      return false;
     },
 
     send() {
-      // console.log("card-application::send");
-      if (!this.allSelectsFilled()) {
-        this.$notify({
-          type: "warn",
-          title: this.$t("warning"),
-          text: this.$t("all-three-inputs"),
-          duration: 2000
-        });
+      // console.log("send");
+      if (this.isValidInput()) {
+        this.disabled = true;
+        if (this.$store.state.wantsNotifications) {
+          this.setAlertType("success");
+          this.alert = true;
+          setTimeout(this.closeAlertAndLeave, 2000);
+        } else {
+          this.$router.push("home");
+        }
       } else {
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          text: this.$t("application-sent-success"),
-          duration: 3000
-        });
-        setTimeout(() => {
-          history.back();
-        }, 2000);
+        this.setAlertType("warning");
+        this.alert = true;
+        setTimeout(this.closeAlertAndStay, 3000);
       }
     },
 
+    closeAlertAndLeave() {
+      // console.log("closeAlertAndLeave");
+      this.alert = false;
+      this.$router.push("home");
+    },
+
+    closeAlertAndStay() {
+      // console.log("closeAlertAndStay");
+      this.alert = false;
+    },
+
     reset() {
-      // console.log("card-application::reset");
-      if (this.hasApplicationChanged()) {
-        this.clearSelects();
-        if (this.$store.state.notifications) {
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            text: this.$t("application-reset-success"),
-            duration: 2000
-          });
-        }
-      } else {
-        if (this.$store.state.notifications) {
-          this.$notify({
-            title: this.$t("info"),
-            text: this.$t("no-changes-no-reset"),
-            duration: 2000
-          });
-        }
-      }
+      this.account = this.initAccount;
+      this.cardType = this.initCardType;
+      this.limit = this.initLimit;
     }
   }
 };
 </script>
 
 <style scoped>
-.container {
-  z-index: 1;
-}
-
-.nav {
-  z-index: 3;
-}
-
 .content {
-  z-index: 2;
-  margin-top: 20px;
-  margin-left: 10%;
-  width: 80%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+.vcard {
+  width: 100%;
+}
+.inp {
+  width: 100%;
+}
+.inp-select {
+  margin-top: 0px;
+}
+.alert-icon {
+  padding: 0 1rem 0 0;
+}
+.alert {
+  position: absolute;
+  width: 290px;
+  top: 40px;
+  left: 50%;
+  margin: 0 0 0 -145px;
+}
+#btn-cancel,
+#btn-save,
+#btn-reset {
+  height: 30px;
+}
+.btn-cancel,
+.btn-reset {
+  color: #666666;
+}
+.btn-group {
   display: grid;
   grid-template:
-    "bp-key bp-key" 10%
-    "account input-account" 10%
-    "card input-card" 10%
-    "limit input-limit" 10%
-    "cb sb" 15%
-    "rb rb" 15%
-    "logo logo" 30%;
-  grid-template-columns: 50% 50%;
-  font-size: 20px;
+    "cb sb" 50%
+    "rb ee" 50%;
 }
-
-.bp-key {
-  grid-area: bp-key;
-  text-align: left;
-}
-
-.account {
-  grid-area: account;
-  text-align: left;
-}
-
-.input-account {
-  grid-area: input-account;
-  text-align: left;
-  margin-left: -40%;
-}
-
-.select-account {
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-}
-
-.card {
-  grid-area: card;
-  text-align: left;
-}
-
-.input-card {
-  grid-area: input-card;
-  text-align: left;
-  margin-left: -40%;
-}
-
-.select-card {
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-}
-
-.limit {
-  grid-area: limit;
-  text-align: left;
-}
-
-.input-limit {
-  grid-area: input-limit;
-  text-align: left;
-  margin-left: -40%;
-}
-
-.select-limit {
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-}
-
 .cb {
   grid-area: cb;
-  padding-top: 50px;
-  padding-right: 10px;
 }
-
 .sb {
   grid-area: sb;
-  padding-top: 50px;
-  padding-left: 10px;
 }
-
 .rb {
   grid-area: rb;
-}
-
-.logo {
-  grid-area: logo;
 }
 </style>
