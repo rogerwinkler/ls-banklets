@@ -36,11 +36,15 @@ export default {
 
   computed: {
     imgWidth() {
-      const scale = 0.75;
-      const aspectRatio = 6.2 / 11;
-      const widthBasedOnViewportWidth = window.innerWidth * scale;
-      const widthBasedOnViewportHeight =
-        window.innerHeight * scale * aspectRatio;
+      const scale = 0.8;
+      const aspectRatio = 380 / 676;
+      // Calc based on window (for mobile)
+      // const widthBasedOnViewportWidth = window.innerWidth * scale;
+      // const widthBasedOnViewportHeight =
+      //   window.innerHeight * scale * aspectRatio;
+      // Calc based on effective size (for mobile emulator in browser)
+      const widthBasedOnViewportWidth = 380 * scale;
+      const widthBasedOnViewportHeight = 676 * scale * aspectRatio;
       return Math.min(widthBasedOnViewportWidth, widthBasedOnViewportHeight);
     }
   },

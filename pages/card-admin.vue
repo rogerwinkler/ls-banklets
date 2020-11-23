@@ -77,9 +77,9 @@
       v-model="adjustLimitsDialog"
       class="pt-4"
       persistent
-      max-width="400"
+      max-width="340"
     >
-      <v-card width="400" class="">
+      <v-card width="340" class="">
         <v-card-text class="pt-4">
           <strong> {{ $t("card") }}: </strong>
           <br />
@@ -147,9 +147,9 @@
       v-model="regionSettingsDialog"
       class="pt-4"
       persistent
-      max-width="400"
+      max-width="340"
     >
-      <v-card width="400" class="">
+      <v-card width="340" class="">
         <v-card-text class="pt-4">
           <strong> {{ $t("card") }}: </strong>
           <br />
