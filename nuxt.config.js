@@ -1,8 +1,5 @@
 import colors from "vuetify/es5/util/colors";
 
-module.exports = {
-  basePath: process.env.BASE_PATH || "/"
-};
 export default {
   env: {
     baseUrl: process.env.BASE_URL || "http://localhost:3000"
