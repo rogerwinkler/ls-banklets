@@ -138,6 +138,10 @@ export default {
     }
   },
 
+  mounted() {
+    this.$store.commit("translateMenuItems");
+  },
+
   methods: {
     menuItemClicked(itemNo) {
       // console.log("menuItemClicked::itemNo=", itemNo);
