@@ -20,7 +20,7 @@ export default {
     titleTemplate: "%s - mx-banklets-vuetify",
     title: "mx-banklets-vuetify",
     meta: [
-      { name: "build", content: "20" },
+      { name: "build", content: "21" },
       { charset: "utf-8" },
       // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {

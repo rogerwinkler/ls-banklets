@@ -148,28 +148,28 @@ export default {
 
       switch (itemNo) {
         case 0:
-          this.$router.push("home");
+          this.$router.push("/home");
           break;
         case 1:
-          this.$router.push("qr-payment");
+          this.$router.push("/qr-payment");
           break;
         case 2:
-          this.$router.push("card-admin");
+          this.$router.push("/card-admin");
           break;
         case 3:
-          this.$router.push("card-application");
+          this.$router.push("/card-application");
           break;
         case 4:
-          this.$router.push("settings");
+          this.$router.push("/settings");
           break;
         case 5:
-          this.$router.push("quick-tour");
+          this.$router.push("/quick-tour");
           break;
         case 6:
-          this.$router.push("about");
+          this.$router.push("/about");
           break;
         case 7:
-          this.$router.push("logout");
+          // this.$router.push("logout");
           this.$router.push("/");
           break;
         default:
