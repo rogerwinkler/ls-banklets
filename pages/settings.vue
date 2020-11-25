@@ -10,6 +10,7 @@
         {{ $t("select-lang") }}
         <v-select
           v-model="locale"
+          class="inp inp-select"
           :items="locales"
           item-text="locale"
           item-value="abbr"
@@ -17,6 +18,8 @@
           single-line
           @change="localeChanged(locale.abbr)"
           :disabled="disabled"
+          :menu-props="{ offsetY: true }"
+          attach=".inp-select"
         ></v-select>
         <v-checkbox
           v-model="wantsConfirmations"
