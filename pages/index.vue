@@ -5,12 +5,15 @@
         {{ $t("select-lang") }}
         <v-select
           v-model="locale"
+          class="sel-lang"
           :items="locales"
           item-text="locale"
           item-value="abbr"
           return-object
           single-line
           @change="localeChanged(locale.abbr)"
+          :menu-props="{ offsetY: true }"
+          attach=".sel-lang"
         ></v-select>
       </v-card-text>
       <v-card-title>

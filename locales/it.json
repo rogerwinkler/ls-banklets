@@ -69,6 +69,7 @@
   "select-your-preferences": "Seleziona le tue preferenze.",
   "send": "Spedire",
   "settings": "Regolazione",
+  "settings-not-stored": "Regolazione non salvata, sarà resettata!",
   "settings-stored-success": "La regulazione è stata salvata di successo!",
   "show-confirmations": "Confirmazioni",
   "show-notifications": "Notificazioni",

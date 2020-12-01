@@ -4,6 +4,7 @@
       <v-app-bar absolute app color="primary" dark>
         <img
           id="img-logo"
+          class="img-logo"
           src="img/logo-mx-cubic-grey.svg"
           alt="Logo Monex AG"
           width="50px"
@@ -17,9 +18,9 @@
           v-model="shown"
           :close-on-click="true"
           :close-on-content-click="true"
-          attach=".cont"
-          nudge-right="130"
-          nudge-bottom="100"
+          attach=".vapp"
+          nudge-right="-140"
+          nudge-bottom="40"
         >
           <template v-slot:activator="{ on }">
             <v-app-bar-nav-icon class="mxnavicon" v-on="on" />

@@ -69,6 +69,7 @@
   "select-your-preferences": "Wählen Sie Ihre Einstellungen.",
   "send": "Abschicken",
   "settings": "Einstellungen",
+  "settings-not-stored": "Einstellungen nicht gespeichert, werden rückgängig gemacht!",
   "settings-stored-success": "Die Einstellungen wurden erfolgreich gespeichert!",
   "show-confirmations": "Bestätigungsmeldungen",
   "show-notifications": "Notifizierungen",

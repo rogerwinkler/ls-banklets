@@ -69,6 +69,7 @@
   "select-your-preferences": "Select your preferences.",
   "send": "Send",
   "settings": "Settings",
+  "settings-not-stored": "Settings not stored. They will be reverted!",
   "settings-stored-success": "Settings successfully stored!",
   "show-confirmations": "Confirmations",
   "show-notifications": "Notifications",

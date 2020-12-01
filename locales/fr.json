@@ -69,6 +69,7 @@
   "select-your-preferences": "Sélectionnez vos préférences.",
   "send": "Envoyer",
   "settings": "Paramètres",
+  "settings-not-stored": "Les paramètres ne sont pas sauvegardés, ils seront réinitialisés!",
   "settings-stored-success": "Les paramètres ont étés sauvegardés aves succès!",
   "show-confirmations": "Confirmations",
   "show-notifications": "Notifications",

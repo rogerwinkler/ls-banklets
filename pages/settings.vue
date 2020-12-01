@@ -137,6 +137,16 @@ export default {
     this.initWantsNotifications = this.wantsNotifications;
   },
 
+  beforeDestroy() {
+    console.log("beforeDestroy");
+    if (this.haveSettingsChanged()) {
+      // Reset to original settings
+      this.localeChanged(this.initLocale.abbr);
+      this.wantsConfirmations = this.initWantsConfirmations;
+      this.wantsNotifications = this.initWantsNotifications;
+    }
+  },
+
   destroyed() {
     // console.log("destroyed");
     this.$store.commit("enableMenuItem", 4);
@@ -144,14 +154,24 @@ export default {
 
   methods: {
     setAlertType(alertType) {
-      if (alertType === "success") {
-        this.alertType = "success";
-        this.alertText = this.$t("changes-saved-success");
-        this.alertIcon = "mdi-information-outline";
-      } else if (alertType === "warning") {
-        this.alertType = "warning";
-        this.alertText = this.$t("no-changes-no-save");
-        this.alertIcon = "mdi-alert-outline";
+      switch (alertType) {
+        case "success":
+          this.alertType = "success";
+          this.alertText = this.$t("changes-saved-success");
+          this.alertIcon = "mdi-information-outline";
+          break;
+        case "warning":
+          this.alertType = "warning";
+          this.alertText = this.$t("no-changes-no-save");
+          this.alertIcon = "mdi-alert-outline";
+          break;
+        case "settings-not-stored":
+          this.alertType = "warning";
+          this.alertText = this.$t("settings-not-stored");
+          this.alertIcon = "mdi-alert-outline";
+          break;
+        default:
+          break;
       }
     },
 
@@ -199,6 +219,10 @@ export default {
         this.disabled = true;
         this.$store.commit("setWantsConfirmations", this.wantsConfirmations);
         this.$store.commit("setWantsNotifications", this.wantsNotifications);
+        // save initial settings
+        this.initLocale = this.locale;
+        this.initWantsConfirmations = this.wantsConfirmations;
+        this.initWantsNotifications = this.wantsNotifications;
         if (this.$store.state.wantsNotifications) {
           this.setAlertType("success");
           this.alert = true;
