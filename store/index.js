@@ -24,7 +24,7 @@ export const state = () => ({
     { title: "card-application", disabled: true },
     { title: "settings", disabled: true },
     { title: "quick-tour", disabled: true },
-    { title: "about-mx-banklets", disabled: true },
+    { title: "about-ls-banklets", disabled: true },
     { title: "logout", disabled: true }
   ],
 
@@ -298,7 +298,7 @@ export const mutations = {
     state.menuItems[3].title = this.app.i18n.t("card-application");
     state.menuItems[4].title = this.app.i18n.t("settings");
     state.menuItems[5].title = this.app.i18n.t("quick-tour");
-    state.menuItems[6].title = this.app.i18n.t("about-mx-banklets");
+    state.menuItems[6].title = this.app.i18n.t("about-ls-banklets");
     state.menuItems[7].title = this.app.i18n.t("logout");
   },
 

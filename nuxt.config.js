@@ -3,10 +3,12 @@ import colors from "vuetify/es5/util/colors";
 export default {
   env: {
     baseUrl: process.env.BASE_URL || "http://localhost:3000"
+    // baseUrl: process.env.BASE_URL || "https://www.logsem.com/apps/ls-banklets/"
   },
 
   router: {
-    base: process.env.ROUTER_BASE || "/"
+    // base: process.env.ROUTER_BASE || "/"
+    base: process.env.ROUTER_BASE || "/apps/ls-banklets/"
   },
 
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
@@ -17,8 +19,8 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: "%s - mx-banklets-vuetify",
-    title: "mx-banklets-vuetify",
+    titleTemplate: "%s - ls-banklets",
+    title: "ls-banklets",
     meta: [
       { name: "build", content: "24" },
       { charset: "utf-8" },
@@ -33,8 +35,8 @@ export default {
     link: [
       {
         rel: "icon",
-        type: "image/png",
-        href: "/img/logo-mx-cubic-32x32-trans.png"
+        type: "image/svg",
+        href: "/img/logsem-cube.svg"
       }
     ]
   },
@@ -80,7 +82,7 @@ export default {
     //   // options: { customProperties: true, variations: false }
     // }
 
-    // mx color scheme...
+    // ls color scheme...
     theme: {
       dark: false,
       themes: {

@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <mx-overline>{{ $t("settings") }}</mx-overline>
-    <mx-caption>
+    <ls-overline>{{ $t("settings") }}</ls-overline>
+    <ls-caption>
       {{ $t("select-your-preferences") }}
-    </mx-caption>
+    </ls-caption>
 
     <v-card class="mt-n1" elevation="2">
       <v-card-text>

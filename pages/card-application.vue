@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <mx-overline>{{ $t("card-application") }}</mx-overline>
-    <mx-caption>
+    <ls-overline>{{ $t("card-application") }}</ls-overline>
+    <ls-caption>
       {{ $t("please-fill-in-the-form-") }}
-    </mx-caption>
+    </ls-caption>
     <v-card class="mt-n1 vcard" elevation="2">
       <v-card-text>
         <v-select

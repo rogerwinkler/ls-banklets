@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <mx-overline>{{ $t("qr-payment") }}</mx-overline>
+    <ls-overline>{{ $t("qr-payment") }}</ls-overline>
     <v-card class="mb-2 vcard" elevation="2">
       <v-card-text>
         <v-select

@@ -1,10 +1,9 @@
 <template>
   <div class="content">
-    <mx-overline>{{ $t("about") }}</mx-overline>
+    <ls-overline>{{ $t("about") }}</ls-overline>
     <div class="logo">
-      <Logo />
       <h1 class="title">
-        Banklets
+        LS Banklets
       </h1>
     </div>
     <hr class="hr" />
@@ -13,7 +12,9 @@
       <br />
       <span>{{ $t("date") }}: 2020-11-17</span>
       <br />
-      <span>&copy;2020 Monex AG, Balzers Liechtenstein</span>
+      <span
+        >&copy; {{ new Date().getFullYear() }} Roger Winkler, Alpirsbach</span
+      >
     </div>
     <hr class="hr" />
     <div class="data-protection-header">
@@ -51,16 +52,16 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.logo {
+/* .logo {
   margin-top: 10px;
   margin-bottom: 20px;
-}
+} */
 .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 400;
-  font-size: 68px !important;
+  font-size: 48px !important;
   /* color: #35495e; */
   /* color: var(--bg-color-tertiary); */
   color: #aaa;

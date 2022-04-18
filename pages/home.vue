@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <mx-overline>{{ $t("overview") }}</mx-overline>
-    <mx-caption>
+    <ls-overline>{{ $t("overview") }}</ls-overline>
+    <ls-caption>
       {{ $t("all-the-interaction-") }}
-    </mx-caption>
+    </ls-caption>
     <v-btn
       color="primary"
       class="info--text btn btn-qr"

@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <mx-overline>
+    <ls-overline>
       {{ $t("card-admin") }}
-    </mx-overline>
-    <v-card class="mx-4 mt-3 mb-6 py-0" elevation="2">
+    </ls-overline>
+    <v-card class="ls-4 mt-3 mb-6 py-0" elevation="2">
       <v-card-text>
         {{ $t("select-card") }}
         <v-select

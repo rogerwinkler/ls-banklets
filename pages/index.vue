@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <v-card width="400" class="mx-auto mt-5" elevation="6">
+    <v-card width="400" class="ls-auto mt-5" elevation="6">
       <v-card-text>
         {{ $t("select-lang") }}
         <v-select

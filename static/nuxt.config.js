@@ -6,8 +6,8 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: "%s - mx-banklets-vuetify",
-    title: "mx-banklets-vuetify",
+    titleTemplate: "%s - ls-banklets-vuetify",
+    title: "ls-banklets-vuetify",
     meta: [
       { name: "build", content: "10" },
       { charset: "utf-8" },
@@ -23,7 +23,7 @@ export default {
       {
         rel: "icon",
         type: "image/png",
-        href: "/img/logo-mx-cubic-32x32-trans.png"
+        href: "/img/logo-ls-cubic-32x32-trans.png"
       }
     ]
   },
@@ -69,7 +69,7 @@ export default {
     //   // options: { customProperties: true, variations: false }
     // }
 
-    // mx color scheme...
+    // ls color scheme...
     theme: {
       dark: false,
       themes: {

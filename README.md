@@ -1,8 +1,6 @@
-# mx-banklets
+# ls-banklets
 
-_Version: This is version 3 of MX Banklets based on the component framework Vuetify, but with enhanced UX/UI._
-
-This is an implementation of the _**MX Banklets**_ app based on Nuxt and Vuetify.
+_This is an implementation of the **LS Banklets** app based on Nuxt and Vuetify._
 
 ## Build Setup
 

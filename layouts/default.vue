@@ -5,13 +5,12 @@
         <img
           id="img-logo"
           class="img-logo"
-          src="img/logo-mx-cubic-grey.svg"
-          alt="Logo Monex AG"
-          width="50px"
-          height="30px"
+          src="/img/logsem-cube.svg"
+          alt="Logsem Logo"
+          height="50px"
         />
         <v-spacer />
-        <v-toolbar-title>MX Banklets</v-toolbar-title>
+        <v-toolbar-title>LS Banklets</v-toolbar-title>
         <v-spacer />
         <v-menu
           transition="slide-y-transition"
@@ -23,7 +22,7 @@
           nudge-bottom="40"
         >
           <template v-slot:activator="{ on }">
-            <v-app-bar-nav-icon class="mxnavicon" v-on="on" />
+            <v-app-bar-nav-icon class="lsnavicon" v-on="on" />
           </template>
 
           <v-list>
@@ -54,7 +53,7 @@
       >
         <v-spacer />
         <span
-          >&copy; {{ new Date().getFullYear() }} Monex AG, Liechtenstein</span
+          >&copy; {{ new Date().getFullYear() }} Roger Winkler, Alpirsbach</span
         >
         <v-spacer />
       </v-footer>
@@ -211,7 +210,7 @@ export default {
   visibility: hidden;
 }
 .hr {
-  border-color: $mx-success;
+  border-color: $ls-success;
   margin-bottom: 4px;
 }
 </style>
